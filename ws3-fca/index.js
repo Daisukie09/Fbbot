@@ -260,7 +260,8 @@ function buildAPI(globalOptions, html, jar) {
     region,
     firstListen: true,
     fb_dtsg,
-    fcaUsed: "ws3-fca"
+    fcaUsed: "ws3-fca",
+    threadTypeCache: new Map(),
   };
   const defaultFuncs = utils.makeDefaults(html, userID, ctx);
   return [ctx, defaultFuncs];

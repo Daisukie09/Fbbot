@@ -99,7 +99,14 @@ module.exports = function (defaultFuncs, api, ctx) {
       });
   }
 
-  function sendContent(form, threadID, isSingleUser, messageAndOTID, callback) {
+  function sendContent(
+    form,
+    threadID,
+    isSingleUser,
+    messageAndOTID,
+    callback,
+    attempt = 0,
+  ) {
     // There are three cases here:
     // 1. threadID is of type array, where we're starting a new group chat with users
     //    specified in the array.
@@ -136,7 +143,7 @@ module.exports = function (defaultFuncs, api, ctx) {
         "https://www.facebook.com/profile.php?id=" + ctx.userID;
     }
 
-    defaultFuncs
+    return defaultFuncs
       .post("https://www.facebook.com/messaging/send/", ctx.jar, form)
       .then(utils.parseAndCheckLogin(ctx, defaultFuncs))
       .then(function (resData) {
@@ -151,6 +158,39 @@ module.exports = function (defaultFuncs, api, ctx) {
               "Got error 1545012. This might mean that you're not part of the conversation " +
               threadID
             );
+            if (
+              attempt < 1 &&
+              !Array.isArray(threadID) &&
+              typeof api.handleMessageRequest === "function"
+            ) {
+              console.warn(
+                "sendMessage",
+                "Attempting to auto-accept the thread and retry delivery.",
+              );
+              return api
+                .handleMessageRequest(threadID, true)
+                .then(function () {
+                  const newOTID = utils.generateOfflineThreadingID();
+                  form.offline_threading_id = newOTID;
+                  form.message_id = newOTID;
+                  return sendContent(
+                    form,
+                    threadID,
+                    isSingleUser,
+                    newOTID,
+                    callback,
+                    attempt + 1,
+                  );
+                })
+                .catch(function (err) {
+                  console.warn(
+                    "sendMessage",
+                    "Auto-accept thread failed",
+                    err,
+                  );
+                  return callback(resData);
+                });
+            }
           }
           return callback(resData);
         }
@@ -173,17 +213,31 @@ module.exports = function (defaultFuncs, api, ctx) {
       });
   }
 
-  function send(form, threadID, messageAndOTID, callback, isGroup) {
+  function send(form, threadID, messageAndOTID, callback, isGroup, attempt = 0) {
     // We're doing a query to this to check if the given id is the id of
     // a user or of a group chat. The form will be different depending
     // on that.
     if (utils.getType(threadID) === "Array") {
-      sendContent(form, threadID, false, messageAndOTID, callback);
+      return sendContent(form, threadID, false, messageAndOTID, callback, attempt);
     } else {
       if (utils.getType(isGroup) != "Boolean")
-        sendContent(form, threadID, threadID.length <= 15, messageAndOTID, callback);
+        return sendContent(
+          form,
+          threadID,
+          threadID.length <= 15,
+          messageAndOTID,
+          callback,
+          attempt,
+        );
       else
-        sendContent(form, threadID, !isGroup, messageAndOTID, callback);
+        return sendContent(
+          form,
+          threadID,
+          !isGroup,
+          messageAndOTID,
+          callback,
+          attempt,
+        );
     }
   }
 
@@ -346,6 +400,25 @@ module.exports = function (defaultFuncs, api, ctx) {
     var msgType = utils.getType(msg);
     var threadIDType = utils.getType(threadID);
     var messageIDType = utils.getType(replyToMessage);
+
+    var threadKey = threadID;
+    if (threadIDType === "Number" || threadIDType === "String") {
+      threadKey = threadID.toString();
+    } else {
+      threadKey = null;
+    }
+
+    if (
+      utils.getType(isGroup) !== "Boolean" &&
+      threadKey != null &&
+      ctx.threadTypeCache instanceof Map &&
+      ctx.threadTypeCache.has(threadKey)
+    ) {
+      var cachedType = ctx.threadTypeCache.get(threadKey);
+      if (utils.getType(cachedType) === "Boolean") {
+        isGroup = cachedType;
+      }
+    }
 
     if (msgType !== "String" && msgType !== "Object") {
       return callback({

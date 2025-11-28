@@ -32,13 +32,13 @@ module.exports.run = async function ({ api, event, args }) {
 
     const uid = senderID; 
     const apikey = "416866c9-979b-472f-985b-df54ad29bf79"; 
-    const apiUrl = `https://kaiz-apis.gleeze.com/api/kaiz-ai?ask=${encodeURIComponent(prompt)}&uid=${uid}&apikey=${apikey}`;
+    const apiUrl = `https://python-api-clarenceai-g4d8.onrender.com/gpt4o1?prompt=${encodeURIComponent(prompt)}&uid=${uid}`;
 
 
     const response = await axios.get(apiUrl);
 
-    if (response.data && response.data.response) {
-      api.sendMessage({ body: response.data.response }, threadID, messageID);
+    if (response.data && response.data.reply) {
+      api.sendMessage({ body: response.data.reply }, threadID, messageID);
     } else {
       console.error('Unexpected API response:', response.data);
       api.sendMessage(

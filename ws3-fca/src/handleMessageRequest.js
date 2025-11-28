@@ -38,7 +38,13 @@ module.exports = function (defaultFuncs, api, ctx) {
     const messageBox = accept ? "inbox" : "other";
 
     for (let i = 0; i < threadID.length; i++) {
-      form[messageBox + "[" + i + "]"] = threadID[i];
+      const id = threadID[i];
+      form[messageBox + "[" + i + "]"] = id;
+      form["thread_fbids[" + i + "]"] = id;
+      // Passing both `thread_fbids` and folder hints matches the
+      // parameters used by the Messenger web client when accepting
+      // pending conversations, which reduces the chance of Facebook
+      // silently ignoring this request for new group chats.
     }
 
     defaultFuncs

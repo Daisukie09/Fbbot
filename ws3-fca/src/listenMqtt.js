@@ -34,6 +34,17 @@ var topics = [
 	"/webrtc_response",
 ];
 
+function rememberThreadType(ctx, payload) {
+  try {
+    if (!payload) return;
+    if (!ctx.threadTypeCache) ctx.threadTypeCache = new Map();
+    const id = payload.threadID || payload.thread_fbid;
+    if (!id) return;
+    if (typeof payload.isGroup !== "boolean") return;
+    ctx.threadTypeCache.set(id.toString(), payload.isGroup);
+  } catch (_) {}
+}
+
 function listenMqtt(defaultFuncs, api, ctx, globalCallback) {
   //Don't really know what this does but I think it's for the active state?
   //TODO: Move to ctx when implemented
@@ -245,8 +256,10 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
             type: "parse_error"
           });
         }
-        if (fmtMsg)
+        if (fmtMsg) {
+          rememberThreadType(ctx, fmtMsg);
           if (ctx.globalOptions.autoMarkDelivery) markDelivery(ctx, api, fmtMsg.threadID, fmtMsg.messageID);
+        }
 
         return !ctx.globalOptions.selfListen && fmtMsg.senderID === ctx.userID ? undefined : (function() { globalCallback(null, fmtMsg); })();
       } else {
@@ -329,6 +342,8 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
             timestamp: delta.deltaMessageReply.message.messageMetadata.timestamp,
             participantIDs: (delta.deltaMessageReply.message.participants || []).map(e => e.toString())
           };
+
+          rememberThreadType(ctx, callbackToReturn);
 
           if (delta.deltaMessageReply.repliedToMessage) {
             //Mention block - #2
@@ -424,12 +439,13 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
               .catch(err => console.error("forcedFetch", err))
               .finally(function() {
                 if (ctx.globalOptions.autoMarkDelivery) markDelivery(ctx, api, callbackToReturn.threadID, callbackToReturn.messageID);
+                rememberThreadType(ctx, callbackToReturn);
                 !ctx.globalOptions.selfListen && callbackToReturn.senderID === ctx.userID ? undefined : (function() { globalCallback(null, callbackToReturn); })();
               });
           } else callbackToReturn.delta = delta;
 
           if (ctx.globalOptions.autoMarkDelivery) markDelivery(ctx, api, callbackToReturn.threadID, callbackToReturn.messageID);
-
+          rememberThreadType(ctx, callbackToReturn);
           return !ctx.globalOptions.selfListen && callbackToReturn.senderID === ctx.userID ? undefined : (function() { globalCallback(null, callbackToReturn); })();
         }
       }
@@ -540,8 +556,8 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
                       });
                     })();
                   break;
-                case "UserMessage":
-                  console.log("ff-Return", {
+                case "UserMessage": {
+                  const forcedMessage = {
                     type: "message",
                     senderID: utils.formatID(fetchData.message_sender.id),
                     body: fetchData.message.text || "",
@@ -564,39 +580,16 @@ function parseDelta(defaultFuncs, api, ctx, globalCallback, v) {
 
                       subattachments: fetchData.extensible_attachment.subattachments,
                       properties: fetchData.extensible_attachment.story_attachment.properties,
-										}],
+                  	}],
                     mentions: {},
                     timestamp: parseInt(fetchData.timestamp_precise),
                     isGroup: (fetchData.message_sender.id != tid.toString())
-                  });
-                  globalCallback(null, {
-                    type: "message",
-                    senderID: utils.formatID(fetchData.message_sender.id),
-                    body: fetchData.message.text || "",
-                    threadID: utils.formatID(tid.toString()),
-                    messageID: fetchData.message_id,
-                    attachments: [{
-                      type: "share",
-                      ID: fetchData.extensible_attachment.legacy_attachment_id,
-                      url: fetchData.extensible_attachment.story_attachment.url,
-
-                      title: fetchData.extensible_attachment.story_attachment.title_with_entities.text,
-                      description: fetchData.extensible_attachment.story_attachment.description.text,
-                      source: fetchData.extensible_attachment.story_attachment.source,
-
-                      image: ((fetchData.extensible_attachment.story_attachment.media || {}).image || {}).uri,
-                      width: ((fetchData.extensible_attachment.story_attachment.media || {}).image || {}).width,
-                      height: ((fetchData.extensible_attachment.story_attachment.media || {}).image || {}).height,
-                      playable: (fetchData.extensible_attachment.story_attachment.media || {}).is_playable || false,
-                      duration: (fetchData.extensible_attachment.story_attachment.media || {}).playable_duration_in_ms || 0,
-
-                      subattachments: fetchData.extensible_attachment.subattachments,
-                      properties: fetchData.extensible_attachment.story_attachment.properties,
-										}],
-                    mentions: {},
-                    timestamp: parseInt(fetchData.timestamp_precise),
-                    isGroup: (fetchData.message_sender.id != tid.toString())
-                  });
+                  };
+                  console.log("ff-Return", forcedMessage);
+                  rememberThreadType(ctx, forcedMessage);
+                  globalCallback(null, forcedMessage);
+                  break;
+                }
               }
             } else console.error("forcedFetch", fetchData);
           })
