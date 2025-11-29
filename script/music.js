@@ -9,7 +9,7 @@ module.exports.config = {
   aliases: ['play'],
   usage: 'Music [prompt]',
   description: 'Search and download music from Spotify',
-  credits: 'Developer',
+  credits: "syntaxt0x1c",
   cooldown: 5
 };
 

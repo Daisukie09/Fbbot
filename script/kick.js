@@ -2,7 +2,7 @@ module.exports.config = {
 	name: "kick",
 	version: "0.0.1",
 	role: 2,
-	credits: "Cliff",//do not change credits
+	credits: "syntaxt0x1c",//do not change credits
 	description: "kick @tag multiple",
 	usages: "kick @mention",
 	hasPrefix: false,

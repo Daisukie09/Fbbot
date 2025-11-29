@@ -5,7 +5,7 @@ module.exports.config = {
   role: 0, 
   description: "Search for videos",
   usage: "[title of video]",
-  credits: "developer",
+  credits: "syntaxt0x1c",
   cooldown: 0,
   hasPrefix: false
 }

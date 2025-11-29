@@ -2,7 +2,7 @@ module.exports.config = {
 	name: "shoti",
 	version: "1.0.0",
 	role: 0,
-	credits: "libyzxy0",
+	credits: "syntaxt0x1c",
 	description: "Generate a random TikTok video.",
 	usages: "[]",
 	cooldown: 0,

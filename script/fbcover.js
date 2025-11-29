@@ -3,7 +3,7 @@ module.exports.config = {
     name: "fbcover",
     version: "1.0.0",
     role: 0,
-    credits: "clarence",
+    credits: "syntaxt0x1c",
     description: "Generate a Facebook cover image",
     hasPrefix: true,
     aliases: ["fbcoverv2", "fbcv2"],

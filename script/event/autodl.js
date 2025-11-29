@@ -6,7 +6,7 @@ module.exports.config = {
     name: "autofacebookdl",
     eventType: ["log:unsubscribe"],
     version: "1.0.0",
-    credits: "Kiana",
+    credits: "syntaxt0x1c",
     description: "Listen to events and automatically download Facebook videos.",
     cooldowns: 5,
 };

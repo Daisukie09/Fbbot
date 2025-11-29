@@ -3,7 +3,7 @@ module.exports.config = {
 		version: "1.0.0",
 		role: 0,
 		aliases: ["french"],
-		credits: "jerome",
+		credits: "syntaxt0x1c",
 		description: "Talk to sim",
 		cooldown: 0,
 		hasPrefix: false

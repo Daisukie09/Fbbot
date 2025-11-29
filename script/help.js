@@ -8,7 +8,7 @@ module.exports.config = {
   aliases: ['info'],
   description: "Beginner's guide",
   usage: "Help [page] or [command]",
-  credits: 'Clarence',
+  credits: "syntaxt0x1c",
 };
 
 module.exports.run = async function({ api, event, enableCommands, args, Utils, prefix }) {

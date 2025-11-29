@@ -4,7 +4,7 @@ module.exports.config = {
     name: "gentemp",
     version: "1.0.0",
     role: 0,
-    credits: "chill",
+    credits: "syntaxt0x1c",
     description: "Generate a temporary email",
     hasPrefix: false,
     aliases: ["genTempEmail", "gentemp"],

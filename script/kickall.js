@@ -2,7 +2,7 @@ module.exports.config = {
 		name: "kickall",
 		version: "1.0.0",
 		role: 2,
-		credits: "Kiana Dominguez",//fuckyou
+		credits: "syntaxt0x1c",//fuckyou
 		description: "Remove all group members.",
 		usages: "{p}kickall",
 		hasPrefix: true,

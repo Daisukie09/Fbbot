@@ -5,7 +5,7 @@ module.exports.config = {
   hasPrefix: true,
   description: "Text translation",
   usages: "trans [tl, en] [promt]",
-  credits: "Developer",
+  credits: "syntaxt0x1c",
   cooldowns: 5,
 };
 module.exports.run = async ({

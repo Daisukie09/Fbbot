@@ -4,7 +4,7 @@ module.exports.config = {
     name: "checkinbox",
     version: "1.0.0",
     role: 0,
-    credits: "chill",
+    credits: "syntaxt0x1c",
     description: "Check the inbox of a temporary email",
     hasPrefix: false,
     aliases: ["checkEmailInbox", "emailInbox"],

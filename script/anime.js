@@ -8,7 +8,7 @@ module.exports.config = {
   aliases: ['hanime'],
   description: 'Get a random anime image',
   usage: "Anime [category-type]",
-  credits: 'Develeoper',
+  credits: "syntaxt0x1c",
   cooldown: 5,
 };
 module.exports.run = async function({

@@ -4,7 +4,7 @@ module.exports.config = {
     role: 0,
     description: "Teach the bot to respond like a person",
     usage: "teach [question] | [answer]",
-    credits: 'Developer',
+    credits: "syntaxt0x1c",
     cooldown: 3,
 };
 

@@ -5,7 +5,7 @@ module.exports.config = {
 	version: "1.0.0",
 	role: 0,
 	hasPrefix: false,
-	credits: "Eugene Aguilar",
+	credits: "syntaxt0x1c",
 	description: "upload to imgur",
 	usages: "imgur reply image,video,png,jpg",
 	cooldown: 0,

@@ -8,7 +8,7 @@ module.exports.config = {
     aliases: ['blackbox', 'bb'],
     description: 'nigga black',
     usage: 'blackbox tas tanong bugok',
-    credits: 'churchill',
+    credits: "syntaxt0x1c",
     cooldown: 3,
 };
 

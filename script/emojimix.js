@@ -8,7 +8,7 @@ module.exports.config = {
     hasPrefix: true,
     description: "Mix two emojis.",
     usage: "emojimix [emoji1] [emoji2]",
-    credits: "Developer",
+    credits: "syntaxt0x1c",
     cooldown: 0
 };
 

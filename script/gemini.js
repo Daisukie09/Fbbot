@@ -3,7 +3,7 @@ const axios = require('axios');
 module.exports.config = {
   name: "gemini",
   role: 0,
-  credits: "clarence",
+  credits: "syntaxt0x1c",
   description: "Interact with Gemini Vision API",
   hasPrefix: false,
   version: "1.0.0",
@@ -21,21 +21,25 @@ module.exports.run = async function ({ api, event, args }) {
   // Must be replying to a photo
   if (
     event.type !== "message_reply" ||
-    !event.messageReply.attachments[0] ||
+    !event.messageReply?.attachments?.length ||
     event.messageReply.attachments[0].type !== "photo"
   ) {
     return api.sendMessage('⚠️ Please reply to a photo with this command.', event.threadID, event.messageID);
   }
 
-  const imageUrl = encodeURIComponent(event.messageReply.attachments[0].url);
+  const imageUrl = event.messageReply.attachments[0].url;
   const uid = event.senderID;
-  const apikey = "416866c9-979b-472f-985b-df54ad29bf79";
-
+  const apiUrl = "https://geminiapi-w01h.onrender.com/gemini";
   api.sendTypingIndicator(event.threadID);
 
   try {
-    const apiUrl = `https://kaiz-apis.gleeze.com/api/gemini-vision?q=${encodeURIComponent(prompt)}&uid=${uid}&imageUrl=${imageUrl}&apikey=${apikey}`;
-    const response = await axios.get(apiUrl);
+    const response = await axios.get(apiUrl, {
+      params: {
+        ask: prompt,
+        uid,
+        image_url: imageUrl,
+      },
+    });
 
     if (response.data && response.data.response) {
       return api.sendMessage(response.data.response, event.threadID, event.messageID);

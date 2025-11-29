@@ -8,7 +8,7 @@ module.exports.config = {
   hasPrefix: true,
   description: "Search for images on Pinterest.",
   usages: "pinterest [query] - [amount]",
-  credits: "Developer",
+  credits: "syntaxt0x1c",
 };
 async function getPinterest(img) {
   try {

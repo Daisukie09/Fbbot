@@ -6,7 +6,7 @@ module.exports.config = {
   aliases: ['search'],
   description: "Search words dictionary",
   usage: "Ai [promot]",
-  credits: 'Develeoper',
+  credits: "syntaxt0x1c",
   cooldown: 5,
 };
 module.exports.run = async function({

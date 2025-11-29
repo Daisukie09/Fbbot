@@ -2,7 +2,7 @@ module.exports.config = {
   name: "setnn",
   version: "1.0.0",
   hasPermssion: 2,
-  credits: "Mr Chand",
+  credits: "syntaxt0x1c",
   description: "Set nicknames for members who reply or are mentioned",
   commandCategory: "Utilities",
   usages: "set nickname for mentioned or replying members",

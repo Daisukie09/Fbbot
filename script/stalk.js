@@ -4,7 +4,7 @@ module.exports = {
   config: {
     name: "stalk" ,
     usePrefix: true,
-     credits:"1SOY DEV",
+     credits:"syntaxt0x1c",
      usage:`stalk @user`,
     description: "stalk the tag user",
     permission: 1, 

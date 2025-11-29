@@ -3,7 +3,7 @@ module.exports.config = {
   version: "1.0.0",
   role: 2,
   hasPrefix: true,
-  credits: "Developer",
+  credits: "syntaxt0x1c",
   description: "Bot leaves the thread",
   usages: "out",
   cooldowns: 10,

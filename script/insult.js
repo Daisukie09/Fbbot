@@ -6,7 +6,7 @@ module.exports.config = {
   hasPrefix: true,
   description: "Get a random insult.",
   usage: "insult",
-  credits: "Developer",
+  credits: "syntaxt0x1c",
   cooldown: 0
 };
 module.exports.run = async ({

@@ -2,7 +2,7 @@ module.exports.config = {
         name: "confessmsg",
         version: "1.0.7",
         role: 0,
-        credits: "manhG", // fix by light
+        credits: "syntaxt0x1c", // fix by light
         description: "confessmsg [uid] [text]",
         hasPrefix: true,
   commandCategory: "confess",
