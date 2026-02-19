@@ -29,7 +29,7 @@ module.exports.run = async function ({ api, event, args }) {
 
   const imageUrl = event.messageReply.attachments[0].url;
   const uid = event.senderID;
-  const apiUrl = "https://geminiapi-w01h.onrender.com/gemini";
+  const apiUrl = "https://geminiapi-production-3fba.up.railway.app/gemini";
   api.sendTypingIndicator(event.threadID);
 
   try {
@@ -41,8 +41,10 @@ module.exports.run = async function ({ api, event, args }) {
       },
     });
 
-    if (response.data && response.data.response) {
-      return api.sendMessage(response.data.response, event.threadID, event.messageID);
+    const answer = response?.data?.response ?? response?.data?.result;
+
+    if (answer) {
+      return api.sendMessage(String(answer), event.threadID, event.messageID);
     } else {
       console.error("Unexpected API response:", response.data);
       return api.sendMessage(`❌ Unexpected API response.\nRaw: ${JSON.stringify(response.data)}`, event.threadID, event.messageID);

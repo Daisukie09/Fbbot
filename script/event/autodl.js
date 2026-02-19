@@ -29,12 +29,12 @@ module.exports.handleEvent = async function({ api, event }) {
         api.sendTypingIndicator(event.threadID, true);
 
         try {
-            // Use the new API URL for fetching the video download link
-            const apiUrl = `https://kaiz-apis.gleeze.com/api/fbdl-v2?url=${encodeURIComponent(url)}&apikey=416866c9-979b-472f-985b-df54ad29bf79`;
+            // Fetch the video download link
+            const apiUrl = `https://vern-rest-api.vercel.app/api/fbdl?url=${encodeURIComponent(url)}`;
             const response = await axios.get(apiUrl);
 
-            // I Fix: grab the correct property (yawa tarunga imong code)
-            const videoUrl = response.data.download_url;
+            // Expected response: { creator: "Vern", result: "<direct mp4 url>" }
+            const videoUrl = response?.data?.result;
 
             if (!videoUrl) {
                 throw new Error("Could not retrieve video URL from the API.");
