@@ -1,1 +1,55 @@
-[]
+[
+  {
+    "userid": "100079495600495",
+    "prefix": "",
+    "admin": [
+      ""
+    ],
+    "blacklist": [],
+    "enableCommands": [
+      {
+        "commands": [
+          "adc",
+          "adduser",
+          "ai",
+          "ai2",
+          "anime",
+          "antiadmin",
+          "blackbox",
+          "checkinbox",
+          "confessmsg",
+          "dictionary",
+          "emojimix",
+          "fbcover",
+          "gemini",
+          "help",
+          "hercai",
+          "imgur",
+          "insult",
+          "kick",
+          "kickall",
+          "music",
+          "out",
+          "pinterest",
+          "sendnoti",
+          "setnn",
+          "shoti",
+          "sim",
+          "stalk",
+          "teach",
+          "gentemp",
+          "tid",
+          "trans",
+          "uid",
+          "unsend",
+          "videoSearch",
+          "war"
+        ]
+      },
+      {
+        "handleEvent": []
+      }
+    ],
+    "time": 0
+  }
+]

