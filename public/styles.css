@@ -253,6 +253,21 @@ body::after {
   100% { background-position: 0% 50%; }
 }
 
+@keyframes gifGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 15px rgba(255, 45, 149, 0.3))
+           drop-shadow(0 0 30px rgba(255, 45, 149, 0.1));
+  }
+  33% {
+    filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.3))
+           drop-shadow(0 0 30px rgba(0, 212, 255, 0.1));
+  }
+  66% {
+    filter: drop-shadow(0 0 15px rgba(180, 77, 255, 0.3))
+           drop-shadow(0 0 30px rgba(180, 77, 255, 0.1));
+  }
+}
+
 h1, h2, h3, h4 {
   font-family: 'Orbitron', sans-serif;
   font-weight: 700;
@@ -571,7 +586,7 @@ button {
   font-family: 'Orbitron', sans-serif;
 }
 
-/* Hero Panel */
+/* ═══════════ Hero Panel ═══════════ */
 .hero-panel {
   padding: 2.5rem;
   display: flex;
@@ -597,32 +612,77 @@ button {
   font-size: 0.9rem;
 }
 
-.hero-panel textarea {
+/* ═══════════ Textarea with GIF Background ═══════════ */
+.textarea-wrapper {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.textarea-gif {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.2;
+  transition: opacity 0.5s ease;
+}
+
+.textarea-gif img {
+  width: 55%;
+  max-width: 180px;
+  height: auto;
+  border-radius: 16px;
+  animation: float 4s ease-in-out infinite, gifGlow 4s ease-in-out infinite;
+}
+
+/* Hide GIF when user types */
+.textarea-wrapper textarea:not(:placeholder-shown) ~ .textarea-gif {
+  opacity: 0;
+}
+
+/* Dim GIF when textarea is focused */
+.textarea-wrapper textarea:focus ~ .textarea-gif {
+  opacity: 0.06;
+}
+
+.textarea-wrapper textarea {
+  position: relative;
+  z-index: 2;
+  background: rgba(10, 10, 20, 0.7) !important;
   min-height: 190px;
   border-radius: var(--radius-md);
-  background: rgba(10, 10, 20, 0.6);
   border: 1px solid var(--border);
   color: var(--neon-green);
   font-family: 'Courier New', monospace;
   padding: 1.2rem;
-  transition: border var(--transition), box-shadow var(--transition);
+  transition: border var(--transition), box-shadow var(--transition), background var(--transition);
   resize: vertical;
   font-size: 0.9rem;
+  width: 100%;
 }
 
-.hero-panel textarea::placeholder {
+.textarea-wrapper textarea::placeholder {
   color: rgba(0, 212, 255, 0.3);
 }
 
-.hero-panel textarea:focus {
+.textarea-wrapper textarea:focus {
   outline: none;
   border-color: var(--neon-blue);
+  background: rgba(10, 10, 20, 0.85) !important;
   box-shadow:
     0 0 20px rgba(0, 212, 255, 0.15),
     0 0 40px rgba(0, 212, 255, 0.05),
     inset 0 0 20px rgba(0, 212, 255, 0.03);
 }
 
+/* ═══════════ Panel Footer ═══════════ */
 .panel-footer {
   display: flex;
   align-items: center;
@@ -637,7 +697,7 @@ button {
   max-width: 55%;
 }
 
-/* Buttons */
+/* ═══════════ Buttons ═══════════ */
 .btn-ghost {
   display: inline-flex;
   align-items: center;
@@ -862,7 +922,7 @@ button {
   align-items: start;
 }
 
-/* Command Panel */
+/* ═══════════ Command Panel ═══════════ */
 .command-panel {
   padding: 2rem;
   border-radius: var(--radius-lg);
@@ -970,7 +1030,7 @@ button {
   color: var(--text-strong);
 }
 
-/* Command Chips */
+/* ═══════════ Command Chips ═══════════ */
 .command-collection {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -1099,7 +1159,7 @@ button {
   text-align: center;
 }
 
-/* Field Tiles */
+/* ═══════════ Field Tiles ═══════════ */
 .field-tile {
   display: flex;
   flex-direction: column;
@@ -1144,7 +1204,7 @@ button {
   outline: none;
 }
 
-/* Command Aside */
+/* ═══════════ Command Aside ═══════════ */
 .command-aside {
   padding: 2rem;
   color: var(--muted);
@@ -1322,7 +1382,7 @@ button {
   letter-spacing: 0.1em;
 }
 
-/* ═══════════ Guide Page Styles ═══════════ */
+/* ═══════════ Guide Page ═══════════ */
 .guide-container {
   max-width: 900px;
   margin: 0 auto;
@@ -1446,7 +1506,7 @@ button {
   border-left: 2px solid var(--neon-pink);
 }
 
-/* ═══════════ Online Page Styles ═══════════ */
+/* ═══════════ Online Page ═══════════ */
 .online-title {
   font-size: 1.5rem;
   margin: 2rem 0 1.5rem;
@@ -1531,7 +1591,7 @@ button {
   letter-spacing: 0.05em;
 }
 
-/* ═══════════ Old nav override for guide/online pages ═══════════ */
+/* ═══════════ Old nav override ═══════════ */
 .navbar-light.bg-light {
   background: rgba(10, 10, 15, 0.95) !important;
   backdrop-filter: blur(25px);
@@ -1655,6 +1715,11 @@ button {
   .guide-step {
     padding: 1.25rem;
   }
+
+  .textarea-gif img {
+    width: 40%;
+    max-width: 120px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1672,5 +1737,10 @@ button {
 
   .agreement-card {
     padding: 1.5rem;
+  }
+
+  .textarea-gif img {
+    width: 35%;
+    max-width: 100px;
   }
 }
