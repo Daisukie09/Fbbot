@@ -45,7 +45,8 @@
   --shadow-neon-purple: 0 0 20px rgba(180, 77, 255, 0.3),
     0 0 60px rgba(180, 77, 255, 0.1);
   --shadow-glow: 0 0 30px rgba(255, 45, 149, 0.2),
-    0 0 60px rgba(0, 212, 255, 0.15), 0 0 100px rgba(180, 77, 255, 0.1);
+    0 0 60px rgba(0, 212, 255, 0.15),
+    0 0 100px rgba(180, 77, 255, 0.1);
   --radius-lg: 24px;
   --radius-md: 18px;
   --radius-sm: 14px;
@@ -84,7 +85,8 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       ellipse 600px 600px at 20% 20%,
       rgba(255, 45, 149, 0.08),
       transparent
@@ -169,12 +171,16 @@ body::after {
 @keyframes textGlow {
   0%,
   100% {
-    text-shadow: 0 0 10px rgba(255, 45, 149, 0.5),
-      0 0 20px rgba(255, 45, 149, 0.3), 0 0 40px rgba(255, 45, 149, 0.2);
+    text-shadow:
+      0 0 10px rgba(255, 45, 149, 0.5),
+      0 0 20px rgba(255, 45, 149, 0.3),
+      0 0 40px rgba(255, 45, 149, 0.2);
   }
   50% {
-    text-shadow: 0 0 20px rgba(0, 212, 255, 0.6),
-      0 0 40px rgba(0, 212, 255, 0.4), 0 0 80px rgba(0, 212, 255, 0.2);
+    text-shadow:
+      0 0 20px rgba(0, 212, 255, 0.6),
+      0 0 40px rgba(0, 212, 255, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.2);
   }
 }
 
@@ -187,9 +193,12 @@ body::after {
   54%,
   56%,
   100% {
-    text-shadow: 0 0 7px rgba(255, 45, 149, 0.6),
-      0 0 10px rgba(255, 45, 149, 0.5), 0 0 21px rgba(255, 45, 149, 0.4),
-      0 0 42px rgba(255, 45, 149, 0.3), 0 0 82px rgba(255, 45, 149, 0.2);
+    text-shadow:
+      0 0 7px rgba(255, 45, 149, 0.6),
+      0 0 10px rgba(255, 45, 149, 0.5),
+      0 0 21px rgba(255, 45, 149, 0.4),
+      0 0 42px rgba(255, 45, 149, 0.3),
+      0 0 82px rgba(255, 45, 149, 0.2);
   }
   20%,
   24%,
@@ -256,17 +265,20 @@ body::after {
   0%,
   100% {
     border-color: rgba(255, 45, 149, 0.3);
-    box-shadow: 0 0 15px rgba(255, 45, 149, 0.1),
+    box-shadow:
+      0 0 15px rgba(255, 45, 149, 0.1),
       inset 0 0 15px rgba(255, 45, 149, 0.05);
   }
   33% {
     border-color: rgba(0, 212, 255, 0.3);
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.1),
+    box-shadow:
+      0 0 15px rgba(0, 212, 255, 0.1),
       inset 0 0 15px rgba(0, 212, 255, 0.05);
   }
   66% {
     border-color: rgba(180, 77, 255, 0.3);
-    box-shadow: 0 0 15px rgba(180, 77, 255, 0.1),
+    box-shadow:
+      0 0 15px rgba(180, 77, 255, 0.1),
       inset 0 0 15px rgba(180, 77, 255, 0.05);
   }
 }
@@ -316,15 +328,18 @@ body::after {
 @keyframes gifGlow {
   0%,
   100% {
-    filter: drop-shadow(0 0 15px rgba(255, 45, 149, 0.3))
+    filter:
+      drop-shadow(0 0 15px rgba(255, 45, 149, 0.3))
       drop-shadow(0 0 30px rgba(255, 45, 149, 0.1));
   }
   33% {
-    filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.3))
+    filter:
+      drop-shadow(0 0 15px rgba(0, 212, 255, 0.3))
       drop-shadow(0 0 30px rgba(0, 212, 255, 0.1));
   }
   66% {
-    filter: drop-shadow(0 0 15px rgba(180, 77, 255, 0.3))
+    filter:
+      drop-shadow(0 0 15px rgba(180, 77, 255, 0.3))
       drop-shadow(0 0 30px rgba(180, 77, 255, 0.1));
   }
 }
@@ -398,7 +413,9 @@ h4 {
 a {
   color: var(--neon-blue);
   text-decoration: none;
-  transition: color var(--transition), text-shadow var(--transition);
+  transition:
+    color var(--transition),
+    text-shadow var(--transition);
 }
 
 a:hover,
@@ -460,7 +477,8 @@ button {
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 4px 30px rgba(255, 45, 149, 0.08),
+  box-shadow:
+    0 4px 30px rgba(255, 45, 149, 0.08),
     0 1px 0 rgba(0, 212, 255, 0.1);
 }
 
@@ -543,7 +561,9 @@ button {
   text-transform: uppercase;
   font-size: 0.9rem;
   color: var(--muted) !important;
-  transition: color var(--transition), transform var(--transition),
+  transition:
+    color var(--transition),
+    transform var(--transition),
     text-shadow var(--transition);
   padding: 0.5rem 1rem !important;
   border-radius: 12px;
@@ -628,7 +648,9 @@ button {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: rainbowShift 4s ease infinite, textGlow 3s ease-in-out infinite;
+  animation:
+    rainbowShift 4s ease infinite,
+    textGlow 3s ease-in-out infinite;
   filter: drop-shadow(0 0 20px rgba(255, 45, 149, 0.2));
 }
 
@@ -653,7 +675,9 @@ button {
   background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-neon-pink);
-  transition: transform var(--transition), box-shadow var(--transition),
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
     border-color var(--transition);
   animation: slideUp 0.6s ease both;
   position: relative;
@@ -684,7 +708,8 @@ button {
 
 .pillar:hover {
   transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 0 30px rgba(255, 45, 149, 0.2),
+  box-shadow:
+    0 0 30px rgba(255, 45, 149, 0.2),
     0 0 60px rgba(0, 212, 255, 0.1);
   border-color: var(--neon-pink);
 }
@@ -746,8 +771,12 @@ button {
   overflow: hidden;
   background: rgba(5, 5, 15, 0.7);
   border: 1px solid var(--border);
-  animation: borderGlow 6s ease infinite, scaleIn 0.6s ease both;
-  transition: transform var(--transition), box-shadow var(--transition);
+  animation:
+    borderGlow 6s ease infinite,
+    scaleIn 0.6s ease both;
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
   position: relative;
 }
 
@@ -778,8 +807,10 @@ button {
 
 .greeting-card:hover {
   transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 0 30px rgba(255, 45, 149, 0.2),
-    0 0 60px rgba(0, 212, 255, 0.12), 0 0 90px rgba(180, 77, 255, 0.08);
+  box-shadow:
+    0 0 30px rgba(255, 45, 149, 0.2),
+    0 0 60px rgba(0, 212, 255, 0.12),
+    0 0 90px rgba(180, 77, 255, 0.08);
 }
 
 /* GIF Container */
@@ -827,7 +858,9 @@ button {
   max-height: 250px;
   object-fit: cover;
   border-radius: var(--radius-md) var(--radius-md) 0 0;
-  transition: transform 0.6s ease, filter 0.6s ease;
+  transition:
+    transform 0.6s ease,
+    filter 0.6s ease;
   animation: gifPulse 6s ease-in-out infinite;
 }
 
@@ -878,7 +911,9 @@ button {
   color: var(--neon-green);
   font-family: "Courier New", monospace;
   padding: 1.2rem;
-  transition: border var(--transition), box-shadow var(--transition);
+  transition:
+    border var(--transition),
+    box-shadow var(--transition);
   resize: vertical;
   font-size: 0.9rem;
 }
@@ -890,7 +925,8 @@ button {
 .hero-panel textarea:focus {
   outline: none;
   border-color: var(--neon-blue);
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.15),
+  box-shadow:
+    0 0 20px rgba(0, 212, 255, 0.15),
     0 0 40px rgba(0, 212, 255, 0.05),
     inset 0 0 20px rgba(0, 212, 255, 0.03);
 }
@@ -994,7 +1030,9 @@ button {
   text-transform: uppercase;
   font-size: 0.85rem;
   box-shadow: var(--shadow-neon-pink);
-  transition: transform var(--transition), box-shadow var(--transition),
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
     opacity var(--transition);
   position: relative;
   overflow: hidden;
@@ -1030,12 +1068,13 @@ button {
 .btn-primary:not(:disabled):hover,
 .btn-primary:not(:disabled):focus {
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 0 30px rgba(255, 45, 149, 0.4),
-    0 0 60px rgba(255, 45, 149, 0.2), 0 0 100px rgba(255, 45, 149, 0.1);
+  box-shadow:
+    0 0 30px rgba(255, 45, 149, 0.4),
+    0 0 60px rgba(255, 45, 149, 0.2),
+    0 0 100px rgba(255, 45, 149, 0.1);
 }
 
 /* ═══════════ Spotlight ═══════════ */
-
 .spotlight {
   padding: 3rem 0 2rem;
 }
@@ -1140,7 +1179,9 @@ button {
   backdrop-filter: blur(15px);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-glow);
-  transition: transform var(--transition), border-color var(--transition),
+  transition:
+    transform var(--transition),
+    border-color var(--transition),
     box-shadow var(--transition);
   animation: slideUp 0.5s ease both;
   position: relative;
@@ -1176,7 +1217,8 @@ button {
 .command-panel:focus-within {
   transform: translateY(-5px);
   border-color: var(--neon-pink);
-  box-shadow: 0 0 30px rgba(255, 45, 149, 0.15),
+  box-shadow:
+    0 0 30px rgba(255, 45, 149, 0.15),
     0 0 60px rgba(0, 212, 255, 0.08);
 }
 
@@ -1350,14 +1392,16 @@ button {
 .command-chip:focus {
   border-color: var(--neon-blue);
   transform: translateY(-3px);
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.12),
+  box-shadow:
+    0 0 20px rgba(0, 212, 255, 0.12),
     0 0 40px rgba(180, 77, 255, 0.06);
 }
 
 .command-chip.is-active {
   background: rgba(255, 45, 149, 0.08);
   border-color: var(--neon-pink);
-  box-shadow: 0 0 25px rgba(255, 45, 149, 0.15),
+  box-shadow:
+    0 0 25px rgba(255, 45, 149, 0.15),
     0 0 50px rgba(255, 45, 149, 0.05);
 }
 
@@ -1528,7 +1572,9 @@ button {
   height: 22px;
   border-radius: 50%;
   background: var(--muted);
-  transition: transform var(--transition), background var(--transition),
+  transition:
+    transform var(--transition),
+    background var(--transition),
     box-shadow var(--transition);
 }
 
@@ -1632,7 +1678,9 @@ button {
   border-radius: var(--radius-lg);
   padding: 2rem;
   margin-bottom: 2rem;
-  animation: slideUp 0.5s ease both, borderGlow 6s ease infinite;
+  animation:
+    slideUp 0.5s ease both,
+    borderGlow 6s ease infinite;
   position: relative;
   overflow: hidden;
 }
@@ -1692,12 +1740,15 @@ button {
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-glow);
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
 }
 
 .guide-step img:hover {
   transform: scale(1.02);
-  box-shadow: 0 0 30px rgba(255, 45, 149, 0.2),
+  box-shadow:
+    0 0 30px rgba(255, 45, 149, 0.2),
     0 0 60px rgba(0, 212, 255, 0.1);
 }
 
@@ -1752,8 +1803,12 @@ button {
   padding: 1.25rem !important;
   width: 100%;
   overflow: hidden;
-  animation: slideUp 0.5s ease both, borderGlow 6s ease infinite !important;
-  transition: transform var(--transition), box-shadow var(--transition);
+  animation:
+    slideUp 0.5s ease both,
+    borderGlow 6s ease infinite !important;
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
   position: relative;
 }
 
@@ -1771,7 +1826,8 @@ button {
 
 .user-card:hover {
   transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 0 30px rgba(255, 45, 149, 0.15),
+  box-shadow:
+    0 0 30px rgba(255, 45, 149, 0.15),
     0 0 60px rgba(0, 212, 255, 0.08) !important;
 }
 
@@ -1817,7 +1873,8 @@ button {
   background: rgba(10, 10, 15, 0.95) !important;
   backdrop-filter: blur(25px);
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 4px 30px rgba(255, 45, 149, 0.08),
+  box-shadow:
+    0 4px 30px rgba(255, 45, 149, 0.08),
     0 1px 0 rgba(0, 212, 255, 0.1);
 }
 
@@ -1846,7 +1903,9 @@ button {
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  transition: color var(--transition), text-shadow var(--transition);
+  transition:
+    color var(--transition),
+    text-shadow var(--transition);
 }
 
 .navbar-light .nav-link:hover,
@@ -1923,7 +1982,8 @@ button {
   display: grid;
   place-items: center;
   transition: all var(--transition);
-  box-shadow: 0 0 20px rgba(255, 45, 149, 0.2),
+  box-shadow:
+    0 0 20px rgba(255, 45, 149, 0.2),
     0 0 40px rgba(255, 45, 149, 0.1);
   animation: float 3s ease-in-out infinite;
 }
@@ -1932,28 +1992,34 @@ button {
   transform: scale(1.15);
   border-color: var(--neon-cyan);
   color: var(--neon-cyan);
-  box-shadow: 0 0 30px rgba(0, 212, 255, 0.3),
+  box-shadow:
+    0 0 30px rgba(0, 212, 255, 0.3),
     0 0 60px rgba(0, 212, 255, 0.15);
 }
 
 .music-toggle.is-playing {
   border-color: var(--neon-green);
   color: var(--neon-green);
-  box-shadow: 0 0 20px rgba(57, 255, 20, 0.3),
+  box-shadow:
+    0 0 20px rgba(57, 255, 20, 0.3),
     0 0 40px rgba(57, 255, 20, 0.15);
-  animation: float 3s ease-in-out infinite,
+  animation:
+    float 3s ease-in-out infinite,
     musicPulse 1.5s ease-in-out infinite;
 }
 
 @keyframes musicPulse {
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(57, 255, 20, 0.3),
+    box-shadow:
+      0 0 20px rgba(57, 255, 20, 0.3),
       0 0 40px rgba(57, 255, 20, 0.15);
   }
   50% {
-    box-shadow: 0 0 30px rgba(57, 255, 20, 0.5),
-      0 0 60px rgba(57, 255, 20, 0.25), 0 0 90px rgba(57, 255, 20, 0.1);
+    box-shadow:
+      0 0 30px rgba(57, 255, 20, 0.5),
+      0 0 60px rgba(57, 255, 20, 0.25),
+      0 0 90px rgba(57, 255, 20, 0.1);
   }
 }
 
@@ -1976,6 +2042,162 @@ button {
     transform: scale(1.8);
     opacity: 0;
   }
+}
+
+/* ═══════════ Music Overlay ═══════════ */
+.music-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  background: rgba(5, 5, 10, 0.95);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  display: grid;
+  place-items: center;
+  opacity: 1;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.music-overlay.fade-out {
+  opacity: 0;
+  transform: scale(1.05);
+  pointer-events: none;
+}
+
+.overlay-content {
+  text-align: center;
+  padding: 3.5rem 3rem;
+  max-width: 480px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  animation: scaleIn 0.8s ease both;
+}
+
+.overlay-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--gradient-fire);
+  background-size: 200% 200%;
+  animation:
+    rainbowShift 3s ease infinite,
+    float 3s ease-in-out infinite;
+  display: grid;
+  place-items: center;
+  font-size: 2.5rem;
+  color: #fff;
+  box-shadow:
+    0 0 40px rgba(255, 45, 149, 0.4),
+    0 0 80px rgba(255, 45, 149, 0.2),
+    0 0 120px rgba(255, 45, 149, 0.1);
+}
+
+.overlay-content h2 {
+  font-size: 1.5rem;
+  background: var(--gradient-rainbow);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: rainbowShift 4s ease infinite;
+  font-family: "Orbitron", sans-serif;
+}
+
+.overlay-content p {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 360px;
+}
+
+/* Enter with Music button */
+.overlay-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.5rem;
+  border-radius: 999px;
+  border: none;
+  background: var(--gradient-fire);
+  background-size: 200% 200%;
+  animation: rainbowShift 3s ease infinite;
+  color: #fff;
+  font-weight: 700;
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow:
+    0 0 30px rgba(255, 45, 149, 0.4),
+    0 0 60px rgba(255, 45, 149, 0.2);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.overlay-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.overlay-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow:
+    0 0 40px rgba(255, 45, 149, 0.5),
+    0 0 80px rgba(255, 45, 149, 0.3),
+    0 0 120px rgba(255, 45, 149, 0.15);
+}
+
+.overlay-btn:active {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Enter Silent button */
+.overlay-btn-skip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+  font-weight: 600;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.overlay-btn-skip:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--text-strong);
+  transform: translateY(-2px);
 }
 
 /* ═══════════ Responsive ═══════════ */
@@ -2051,5 +2273,34 @@ button {
     width: 48px;
     height: 48px;
     font-size: 1rem;
+  }
+
+  .overlay-content {
+    padding: 2.5rem 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .overlay-icon {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+  }
+
+  .overlay-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .overlay-content p {
+    font-size: 0.9rem;
+  }
+
+  .overlay-btn {
+    padding: 0.85rem 2rem;
+    font-size: 0.85rem;
+  }
+
+  .overlay-btn-skip {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.8rem;
   }
 }
