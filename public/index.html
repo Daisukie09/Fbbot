@@ -4,28 +4,62 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GPT-4 Control Center</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <!-- ═══════ FLOATING PARTICLES ═══════ -->
-    <div id="particles" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;overflow:hidden;"></div>
+    <div
+      id="particles"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+      "
+    ></div>
 
+    <!-- ═══════ HEADER / NAVIGATION ═══════ -->
     <header class="site-header">
       <nav class="navbar navbar-expand-lg navbar-dark site-nav">
         <div class="container">
           <a class="navbar-brand" href="/">
-            <span class="brand-icon"><i class="fas fa-robot"></i></span>
+            <span class="brand-icon">
+              <i class="fas fa-robot"></i>
+            </span>
             <span class="brand-copy">
               <strong>GPT-4</strong>
               <small>Control Center</small>
             </span>
           </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span class="navbar-toggler-icon"></span>
           </button>
+
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item active">
@@ -53,17 +87,22 @@
       </nav>
     </header>
 
+    <!-- ═══════ MAIN CONTENT ═══════ -->
     <main class="page">
-      <!-- ═══════ HERO ═══════ -->
+
+      <!-- ═══════ HERO SECTION ═══════ -->
       <section class="hero">
         <div class="container">
           <div class="hero-inner">
+
+            <!-- Left Side - Hero Copy -->
             <div class="hero-copy">
               <span class="eyebrow">⚡ Welcome aboard</span>
               <h1>Redesign your automation with confidence.</h1>
               <p class="lead">
                 Paste your chatbot cookie, decide how commands should behave, and
-                ship an interactive experience without changing your existing workflow.
+                ship an interactive experience without changing your existing
+                workflow.
               </p>
               <div class="hero-pillars">
                 <div class="pillar">
@@ -81,22 +120,13 @@
               </div>
             </div>
 
-            <!-- ═══════ HERO PANEL WITH GIF GREETING ═══════ -->
+            <!-- Right Side - Hero Panel with GIF Background -->
             <div class="hero-panel glass-card">
-              <!-- GIF GREETING SECTION -->
-              <div class="greeting-card">
-                <div class="greeting-gif">
-                  <img src="https://i.imgur.com/OMNB0Y5.gif" alt="Greeting Animation" />
-                </div>
-                <p class="greeting-text">
-                  Greetings! Begin by entering your cookie. Scroll down to see other features.
-                </p>
-              </div>
-
               <header>
                 <h2>🍪 Paste your JSON cookie</h2>
                 <p>Handled locally in your browser — never stored.</p>
               </header>
+
               <form id="json-form" onsubmit="submitForm(event)">
                 <div class="form-group mb-0">
                   <textarea
@@ -106,9 +136,11 @@
                   ></textarea>
                 </div>
               </form>
+
               <footer class="panel-footer">
                 <p class="panel-note">
-                  Need a refresher? Visit the guide to walk through each step of the deployment process.
+                  Need a refresher? Visit the guide to walk through each step of
+                  the deployment process.
                 </p>
                 <button class="btn btn-ghost" onclick="commandList()">
                   <i class="fas fa-rotate"></i>
@@ -116,11 +148,12 @@
                 </button>
               </footer>
             </div>
+
           </div>
         </div>
       </section>
 
-      <!-- ═══════ SPOTLIGHT ═══════ -->
+      <!-- ═══════ SPOTLIGHT SECTION ═══════ -->
       <section class="spotlight">
         <div class="container">
           <article class="spotlight-card glass-card">
@@ -144,7 +177,7 @@
         </div>
       </section>
 
-      <!-- ═══════ COMMANDS ═══════ -->
+      <!-- ═══════ COMMANDS SECTION ═══════ -->
       <section class="commands" id="command-builder">
         <div class="container">
           <header class="section-head">
@@ -158,85 +191,151 @@
 
           <div class="command-workspace">
             <div class="command-columns">
-              <article class="command-panel" id="listOfCommands" data-panel="commands">
+
+              <!-- Commands Panel -->
+              <article
+                class="command-panel"
+                id="listOfCommands"
+                data-panel="commands"
+              >
                 <div class="panel-headline">
-                  <div class="panel-icon"><i class="fas fa-list-check"></i></div>
+                  <div class="panel-icon">
+                    <i class="fas fa-list-check"></i>
+                  </div>
                   <div>
                     <h3>Commands</h3>
                     <p>Select which commands stay active for your bot.</p>
                   </div>
                 </div>
                 <div class="panel-actions">
-                  <button class="command-action" onclick="selectAllCommands()">
+                  <button
+                    class="command-action"
+                    onclick="selectAllCommands()"
+                  >
                     <i class="fas fa-check-double"></i>
                     <span>Select everything</span>
                   </button>
                 </div>
-                <div class="command-collection" data-collection role="list"></div>
-                <p class="empty-state" data-empty>Commands will appear here once loaded.</p>
-                <button class="btn btn-success btn-block" onclick="selectAllCommands()">
+                <div
+                  class="command-collection"
+                  data-collection
+                  role="list"
+                ></div>
+                <p class="empty-state" data-empty>
+                  Commands will appear here once loaded.
+                </p>
+                <button
+                  class="btn btn-success btn-block"
+                  onclick="selectAllCommands()"
+                >
                   <i class="fas fa-check-double"></i> Select all commands
                 </button>
                 <div class="command-list" data-type="commands"></div>
               </article>
 
-              <article class="command-panel" id="listOfCommandsEvent" data-panel="events">
+              <!-- Event Commands Panel -->
+              <article
+                class="command-panel"
+                id="listOfCommandsEvent"
+                data-panel="events"
+              >
                 <div class="panel-headline">
-                  <div class="panel-icon"><i class="fas fa-bolt"></i></div>
+                  <div class="panel-icon">
+                    <i class="fas fa-bolt"></i>
+                  </div>
                   <div>
                     <h3>Event commands</h3>
                     <p>Fine-tune automated responses triggered by events.</p>
                   </div>
                 </div>
                 <div class="panel-actions">
-                  <button class="command-action" onclick="selectAllEvents()">
+                  <button
+                    class="command-action"
+                    onclick="selectAllEvents()"
+                  >
                     <i class="fas fa-bolt-lightning"></i>
                     <span>Toggle all events</span>
                   </button>
                 </div>
-                <div class="command-collection" data-collection role="list"></div>
-                <p class="empty-state" data-empty>Event commands will appear here once loaded.</p>
-                <button class="btn btn-success btn-block" onclick="selectAllEvents()">
+                <div
+                  class="command-collection"
+                  data-collection
+                  role="list"
+                ></div>
+                <p class="empty-state" data-empty>
+                  Event commands will appear here once loaded.
+                </p>
+                <button
+                  class="btn btn-success btn-block"
+                  onclick="selectAllEvents()"
+                >
                   <i class="fas fa-bolt-lightning"></i> Select all events
                 </button>
                 <div class="command-list" data-type="handleEvent"></div>
               </article>
 
+              <!-- Prefix Panel -->
               <article class="command-panel" id="prefixOfCommands">
                 <div class="panel-headline">
-                  <div class="panel-icon"><i class="fas fa-hashtag"></i></div>
+                  <div class="panel-icon">
+                    <i class="fas fa-hashtag"></i>
+                  </div>
                   <div>
                     <h3>Command prefix</h3>
-                    <p>Type a prefix or use <strong>non-prefix</strong> to disable.</p>
+                    <p>
+                      Type a prefix or use <strong>non-prefix</strong> to
+                      disable.
+                    </p>
                   </div>
                 </div>
                 <label class="field-tile" for="inputOfPrefix">
                   <span class="field-label">Prefix</span>
-                  <input type="text" id="inputOfPrefix" placeholder="Enter prefix or type 'non-prefix'" />
+                  <input
+                    type="text"
+                    id="inputOfPrefix"
+                    placeholder="Enter prefix or type 'non-prefix'"
+                  />
                 </label>
               </article>
 
+              <!-- Admin Panel -->
               <article class="command-panel" id="adminOfCommands">
                 <div class="panel-headline">
-                  <div class="panel-icon"><i class="fas fa-user-shield"></i></div>
+                  <div class="panel-icon">
+                    <i class="fas fa-user-shield"></i>
+                  </div>
                   <div>
                     <h3>Admin UID</h3>
-                    <p>Assign a UID or keep the <strong>default</strong> admin.</p>
+                    <p>
+                      Assign a UID or keep the <strong>default</strong> admin.
+                    </p>
                   </div>
                 </div>
                 <label class="field-tile" for="inputOfAdmin">
                   <span class="field-label">Admin UID</span>
-                  <input type="text" id="inputOfAdmin" placeholder="Enter UID or type 'default'" />
+                  <input
+                    type="text"
+                    id="inputOfAdmin"
+                    placeholder="Enter UID or type 'default'"
+                  />
                 </label>
               </article>
+
             </div>
 
+            <!-- Aside -->
             <aside class="command-aside glass-card">
               <h4>⚠ Before you deploy</h4>
               <ul>
-                <li>Confirm the toggles match the commands you expect.</li>
-                <li>Align prefixes with the communities you manage.</li>
-                <li>Share cookies responsibly with teammates you trust.</li>
+                <li>
+                  Confirm the toggles match the commands you expect.
+                </li>
+                <li>
+                  Align prefixes with the communities you manage.
+                </li>
+                <li>
+                  Share cookies responsibly with teammates you trust.
+                </li>
               </ul>
               <p>
                 Every card above is clickable. Come back anytime to refresh the
@@ -247,7 +346,7 @@
         </div>
       </section>
 
-      <!-- ═══════ AGREEMENT ═══════ -->
+      <!-- ═══════ AGREEMENT SECTION ═══════ -->
       <section class="agreement" aria-labelledby="agreement-title">
         <div class="container">
           <div class="agreement-card glass-card">
@@ -265,10 +364,16 @@
                   <span class="toggle-thumb"></span>
                 </span>
                 <span class="toggle-label">
-                  I have read, understood, and agreed to the Terms and Conditions.
+                  I have read, understood, and agreed to the Terms and
+                  Conditions.
                 </span>
               </label>
-              <button class="btn btn-primary" id="submitButton" onclick="State()" disabled>
+              <button
+                class="btn btn-primary"
+                id="submitButton"
+                onclick="State()"
+                disabled
+              >
                 ⚡ Deploy configuration
               </button>
               <div id="result" class="result-message" role="alert"></div>
@@ -276,8 +381,10 @@
           </div>
         </div>
       </section>
+
     </main>
 
+    <!-- ═══════ FOOTER ═══════ -->
     <footer class="site-footer">
       <div class="container footer-inner">
         <div class="footer-meta">
@@ -292,7 +399,16 @@
     <script>
       (function createParticles() {
         const container = document.getElementById('particles');
-        const colors = ['#ff2d95', '#00d4ff', '#b44dff', '#39ff14', '#ff6600', '#ffe600', '#ff073a', '#00fff7'];
+        const colors = [
+          '#ff2d95',
+          '#00d4ff',
+          '#b44dff',
+          '#39ff14',
+          '#ff6600',
+          '#ffe600',
+          '#ff073a',
+          '#00fff7',
+        ];
         for (let i = 0; i < 50; i++) {
           const particle = document.createElement('div');
           const size = Math.random() * 4 + 2;
@@ -317,6 +433,7 @@
       })();
     </script>
 
+    <!-- ═══════ SCRIPTS ═══════ -->
     <script src="script.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
