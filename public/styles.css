@@ -927,51 +927,39 @@ button {
     0 0 100px rgba(255, 45, 149, 0.1);
 }
 
-/* ═══════════ Spotlight ═══════════ */
+//* ═══════════ Spotlight ═══════════ */
+
 .spotlight {
   padding: 3rem 0 2rem;
 }
 
 .spotlight-card {
   display: grid;
-  grid-template-columns: 80px 1fr;
+  grid-template-columns: 100px 1fr;
   gap: 2rem;
   padding: 2.75rem;
   animation: scaleIn 0.6s ease both;
 }
 
 .spotlight-icon {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 24px;
   display: grid;
   place-items: center;
   background: rgba(0, 212, 255, 0.08);
   border: 1px solid rgba(0, 212, 255, 0.2);
-  color: var(--neon-blue);
-  font-size: 1.8rem;
   box-shadow: var(--shadow-neon-blue);
   animation: float 4s ease-in-out infinite;
+  overflow: hidden;
+  padding: 0;
 }
 
-.spotlight-copy h3 {
-  margin-bottom: 1rem;
-  background: var(--gradient-ocean);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  background-size: 200% 200%;
-  animation: rainbowShift 4s ease infinite;
-  font-size: 1.4rem;
-}
-
-.spotlight-copy p {
-  color: var(--muted);
-  line-height: 1.7;
-}
-
-.spotlight-copy p + p {
-  margin-top: 1rem;
+.spotlight-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;
 }
 
 /* ═══════════ Commands ═══════════ */
