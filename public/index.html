@@ -34,6 +34,25 @@
       "
     ></div>
 
+    <!-- ═══════ FULLSCREEN MUSIC OVERLAY ═══════ -->
+    <div class="music-overlay" id="musicOverlay">
+      <div class="overlay-content glass-card">
+        <div class="overlay-icon">
+          <i class="fas fa-headphones"></i>
+        </div>
+        <h2>Welcome to the Control Center</h2>
+        <p>This experience includes background music for the best vibe.</p>
+        <button class="overlay-btn" id="enterBtn" onclick="enterSite()">
+          <i class="fas fa-play"></i>
+          <span>Enter with Music</span>
+        </button>
+        <button class="overlay-btn-skip" onclick="enterSiteSilent()">
+          <i class="fas fa-volume-xmark"></i>
+          <span>Enter Silent</span>
+        </button>
+      </div>
+    </div>
+
     <header class="site-header">
       <nav class="navbar navbar-expand-lg navbar-dark site-nav">
         <div class="container">
@@ -267,7 +286,9 @@
 
               <article class="command-panel" id="prefixOfCommands">
                 <div class="panel-headline">
-                  <div class="panel-icon"><i class="fas fa-hashtag"></i></div>
+                  <div class="panel-icon">
+                    <i class="fas fa-hashtag"></i>
+                  </div>
                   <div>
                     <h3>Command prefix</h3>
                     <p>
@@ -377,8 +398,8 @@
     </footer>
 
     <!-- ═══════ BACKGROUND MUSIC ═══════ -->
-    <audio id="bgMusic" autoplay loop preload="auto">
-      <source src="https://files.catbox.moe/4yr5ug.mp3" type="audio/mpeg" />
+    <audio id="bgMusic" loop preload="auto">
+      <source src="https://files.catbox.moe/7r3h5m.mp3" type="audio/mpeg" />
     </audio>
 
     <button class="music-toggle" id="musicToggle" onclick="toggleMusic()">
@@ -390,54 +411,180 @@
       const music = document.getElementById("bgMusic");
       const musicIcon = document.getElementById("musicIcon");
       const musicBtn = document.getElementById("musicToggle");
-      let isPlaying = true;
+      const overlay = document.getElementById("musicOverlay");
+      let isPlaying = false;
+      let hasEntered = false;
 
       music.volume = 0.3;
 
-      function tryPlay() {
-        music
-          .play()
-          .then(() => {
-            isPlaying = true;
-            musicBtn.classList.add("is-playing");
-            musicIcon.className = "fas fa-volume-high";
-          })
-          .catch(() => {
-            document.addEventListener("touchstart", retryPlay, { once: true });
-            document.addEventListener("click", retryPlay, { once: true });
-            document.addEventListener("scroll", retryPlay, { once: true });
-          });
+      /* ── Check if user already entered before (session persistence) ── */
+      function checkSession() {
+        const session = sessionStorage.getItem("musicChoice");
+        if (session === "playing") {
+          overlay.style.display = "none";
+          hasEntered = true;
+          restorePosition();
+          forcePlay();
+        } else if (session === "silent") {
+          overlay.style.display = "none";
+          hasEntered = true;
+          updateUI(false);
+        }
       }
 
-      function retryPlay() {
+      /* ── Force play with multiple fallback attempts ── */
+      function forcePlay() {
         music.volume = 0.3;
-        music
-          .play()
-          .then(() => {
-            isPlaying = true;
-            musicBtn.classList.add("is-playing");
-            musicIcon.className = "fas fa-volume-high";
-          })
-          .catch(() => {});
+        const playAttempt = music.play();
+
+        if (playAttempt !== undefined) {
+          playAttempt
+            .then(() => {
+              isPlaying = true;
+              updateUI(true);
+              sessionStorage.setItem("musicChoice", "playing");
+            })
+            .catch(() => {
+              bindInteractionListeners();
+            });
+        }
       }
 
+      /* ── Bind to ANY user interaction as fallback ── */
+      function bindInteractionListeners() {
+        const events = [
+          "click",
+          "touchstart",
+          "keydown",
+          "scroll",
+          "mousemove",
+        ];
+
+        function handleInteraction() {
+          if (!isPlaying && hasEntered) {
+            music.volume = 0.3;
+            music
+              .play()
+              .then(() => {
+                isPlaying = true;
+                updateUI(true);
+              })
+              .catch(() => {});
+          }
+          events.forEach((evt) => {
+            document.removeEventListener(evt, handleInteraction);
+          });
+        }
+
+        events.forEach((evt) => {
+          document.addEventListener(evt, handleInteraction, {
+            once: false,
+            passive: true,
+          });
+        });
+      }
+
+      /* ── Enter site WITH music ── */
+      function enterSite() {
+        hasEntered = true;
+        overlay.classList.add("fade-out");
+
+        setTimeout(() => {
+          overlay.style.display = "none";
+        }, 600);
+
+        sessionStorage.setItem("musicChoice", "playing");
+        forcePlay();
+      }
+
+      /* ── Enter site WITHOUT music ── */
+      function enterSiteSilent() {
+        hasEntered = true;
+        overlay.classList.add("fade-out");
+
+        setTimeout(() => {
+          overlay.style.display = "none";
+        }, 600);
+
+        isPlaying = false;
+        sessionStorage.setItem("musicChoice", "silent");
+        updateUI(false);
+      }
+
+      /* ── Toggle music (floating button) ── */
       function toggleMusic() {
         if (isPlaying) {
           music.pause();
           isPlaying = false;
-          musicIcon.className = "fas fa-volume-xmark";
-          musicBtn.classList.remove("is-playing");
+          sessionStorage.setItem("musicChoice", "silent");
+          updateUI(false);
         } else {
           music.volume = 0.3;
-          music.play();
-          isPlaying = true;
-          musicIcon.className = "fas fa-volume-high";
-          musicBtn.classList.add("is-playing");
+          music
+            .play()
+            .then(() => {
+              isPlaying = true;
+              sessionStorage.setItem("musicChoice", "playing");
+              updateUI(true);
+            })
+            .catch(() => {});
         }
       }
 
-      tryPlay();
-      window.addEventListener("load", tryPlay);
+      /* ── Update button icon and classes ── */
+      function updateUI(playing) {
+        if (playing) {
+          musicIcon.className = "fas fa-volume-high";
+          musicBtn.classList.add("is-playing");
+        } else {
+          musicIcon.className = "fas fa-volume-xmark";
+          musicBtn.classList.remove("is-playing");
+        }
+      }
+
+      /* ── Handle page visibility ── */
+      document.addEventListener("visibilitychange", () => {
+        if (!hasEntered) return;
+
+        if (!document.hidden) {
+          if (isPlaying && music.paused) {
+            music.play().catch(() => {});
+          }
+        }
+      });
+
+      /* ── Save music position before page unload ── */
+      window.addEventListener("beforeunload", () => {
+        if (isPlaying) {
+          sessionStorage.setItem("musicChoice", "playing");
+          sessionStorage.setItem("musicTime", music.currentTime);
+        }
+      });
+
+      /* ── Restore music position after refresh ── */
+      function restorePosition() {
+        const savedTime = sessionStorage.getItem("musicTime");
+        if (savedTime) {
+          music.currentTime = parseFloat(savedTime);
+          sessionStorage.removeItem("musicTime");
+        }
+      }
+
+      /* ── Initialize ── */
+      window.addEventListener("DOMContentLoaded", () => {
+        checkSession();
+      });
+
+      /* ── Extra safety on full load ── */
+      window.addEventListener("load", () => {
+        if (
+          hasEntered &&
+          sessionStorage.getItem("musicChoice") === "playing" &&
+          !isPlaying
+        ) {
+          forcePlay();
+        }
+      });
     </script>
 
     <!-- ═══════ PARTICLE SCRIPT ═══════ -->
