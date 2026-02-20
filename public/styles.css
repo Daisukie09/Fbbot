@@ -38,6 +38,8 @@
   --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ═══════════ Reset ═══════════ */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -60,6 +62,7 @@ body {
 }
 
 /* ═══════════ Animated Background ═══════════ */
+
 body::before {
   content: '';
   position: fixed;
@@ -97,6 +100,8 @@ body::after {
   animation: scanline 10s linear infinite;
 }
 
+/* ═══════════ All Keyframes ═══════════ */
+
 @keyframes bgPulse {
   0% { opacity: 1; }
   50% { opacity: 0.7; }
@@ -108,7 +113,6 @@ body::after {
   100% { transform: translateY(4px); }
 }
 
-/* ═══════════ All Animations ═══════════ */
 @keyframes rainbowShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -127,20 +131,6 @@ body::after {
       0 0 20px rgba(0, 212, 255, 0.6),
       0 0 40px rgba(0, 212, 255, 0.4),
       0 0 80px rgba(0, 212, 255, 0.2);
-  }
-}
-
-@keyframes neonFlicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-    text-shadow:
-      0 0 7px rgba(255, 45, 149, 0.6),
-      0 0 10px rgba(255, 45, 149, 0.5),
-      0 0 21px rgba(255, 45, 149, 0.4),
-      0 0 42px rgba(255, 45, 149, 0.3),
-      0 0 82px rgba(255, 45, 149, 0.2);
-  }
-  20%, 24%, 55% {
-    text-shadow: none;
   }
 }
 
@@ -221,80 +211,25 @@ body::after {
   }
 }
 
-@keyframes gradientBorder {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 @keyframes shimmer {
   0% { left: -100%; }
   50% { left: 100%; }
   100% { left: 100%; }
 }
 
-@keyframes gifGlow {
+@keyframes gifBgPulse {
   0%, 100% {
-    filter: drop-shadow(0 0 15px rgba(255, 45, 149, 0.3))
-           drop-shadow(0 0 30px rgba(255, 45, 149, 0.1));
-  }
-  33% {
-    filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.3))
-           drop-shadow(0 0 30px rgba(0, 212, 255, 0.1));
-  }
-  66% {
-    filter: drop-shadow(0 0 15px rgba(180, 77, 255, 0.3))
-           drop-shadow(0 0 30px rgba(180, 77, 255, 0.1));
-  }
-}
-
-@keyframes gifPulse {
-  0%, 100% {
+    opacity: 0.15;
     filter: brightness(1) saturate(1);
   }
   50% {
-    filter: brightness(1.08) saturate(1.15);
+    opacity: 0.22;
+    filter: brightness(1.1) saturate(1.2);
   }
 }
 
-@keyframes glowPulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-
-@keyframes typingCursor {
-  0%, 100% { border-right-color: var(--neon-blue); }
-  50% { border-right-color: transparent; }
-}
-
-/* ═══════════ Neon Text Classes ═══════════ */
-.neon-text-pink {
-  background: var(--gradient-fire);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 0 8px rgba(255, 45, 149, 0.4));
-}
-
-.neon-text-blue {
-  background: var(--gradient-ocean);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.4));
-}
-
-.neon-text-rainbow {
-  background: var(--gradient-rainbow);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: rainbowShift 4s ease infinite;
-  filter: drop-shadow(0 0 10px rgba(180, 77, 255, 0.3));
-}
-
 /* ═══════════ Typography ═══════════ */
+
 h1, h2, h3, h4 {
   font-family: 'Orbitron', sans-serif;
   font-weight: 700;
@@ -306,7 +241,8 @@ a {
   transition: color var(--transition), text-shadow var(--transition);
 }
 
-a:hover, a:focus {
+a:hover,
+a:focus {
   color: var(--neon-pink);
   text-shadow: 0 0 10px rgba(255, 45, 149, 0.4);
   text-decoration: none;
@@ -325,6 +261,7 @@ button {
 }
 
 /* ═══════════ Glass Card ═══════════ */
+
 .glass-card {
   background: var(--surface);
   backdrop-filter: blur(20px);
@@ -356,6 +293,7 @@ button {
 }
 
 /* ═══════════ Navigation ═══════════ */
+
 .site-header {
   position: sticky;
   top: 0;
@@ -486,6 +424,7 @@ button {
 }
 
 /* ═══════════ Hero ═══════════ */
+
 .hero {
   padding: 5rem 0 4rem;
 }
@@ -607,7 +546,8 @@ button {
   font-family: 'Orbitron', sans-serif;
 }
 
-/* ═══════════ Hero Panel ═══════════ */
+/* ═══════════ Hero Panel with GIF Background ═══════════ */
+
 .hero-panel {
   padding: 2.5rem;
   display: flex;
@@ -615,6 +555,29 @@ button {
   gap: 1.25rem;
   animation: slideInRight 0.8s ease both;
   animation-delay: 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* GIF as full background of the card */
+.hero-panel::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://i.imgur.com/OMNB0Y5.gif') center/cover no-repeat;
+  opacity: 0.15;
+  z-index: 0;
+  pointer-events: none;
+  animation: gifBgPulse 6s ease-in-out infinite;
+}
+
+/* Make all content sit above the GIF */
+.hero-panel > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-panel header h2 {
@@ -633,153 +596,17 @@ button {
   font-size: 0.9rem;
 }
 
-/* ═══════════════════════════════════════════════
-   🎴 GREETING CARD WITH GIF
-   ═══════════════════════════════════════════════ */
-
-.greeting-card {
-  display: flex;
-  flex-direction: column;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  background: rgba(5, 5, 15, 0.7);
-  border: 1px solid var(--border);
-  animation: borderGlow 6s ease infinite, scaleIn 0.6s ease both;
-  transition: transform var(--transition), box-shadow var(--transition);
-  position: relative;
-}
-
-.greeting-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--gradient-rainbow);
-  background-size: 300% 300%;
-  animation: rainbowShift 3s ease infinite;
-  z-index: 2;
-}
-
-.greeting-card::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--gradient-ocean);
-  background-size: 200% 200%;
-  animation: rainbowShift 4s ease infinite;
-}
-
-.greeting-card:hover {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow:
-    0 0 30px rgba(255, 45, 149, 0.2),
-    0 0 60px rgba(0, 212, 255, 0.12),
-    0 0 90px rgba(180, 77, 255, 0.08);
-}
-
-/* GIF Container */
-.greeting-gif {
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  background: #000;
-}
-
-.greeting-gif::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 120%;
-  height: 120%;
-  background: radial-gradient(
-    circle,
-    rgba(0, 212, 255, 0.05) 0%,
-    transparent 70%
-  );
-  pointer-events: none;
-  z-index: 1;
-  animation: glowPulse 4s ease-in-out infinite;
-}
-
-.greeting-gif::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 60px;
-  background: linear-gradient(to top, rgba(5, 5, 15, 0.9), transparent);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.greeting-gif img {
-  width: 100%;
-  height: auto;
-  display: block;
-  max-height: 250px;
-  object-fit: cover;
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
-  transition: transform 0.6s ease, filter 0.6s ease;
-  animation: gifPulse 6s ease-in-out infinite;
-}
-
-.greeting-card:hover .greeting-gif img {
-  transform: scale(1.05);
-  filter: brightness(1.1) saturate(1.2);
-}
-
-/* Greeting Text */
-.greeting-text {
-  padding: 1.25rem 1.5rem;
-  margin: 0;
-  font-family: 'Courier New', 'Lucida Console', monospace;
-  font-size: 0.95rem;
-  line-height: 1.7;
-  color: var(--text);
-  background: rgba(5, 5, 15, 0.85);
-  position: relative;
-  overflow: hidden;
-  min-height: 80px;
-  border-right: 2px solid var(--neon-blue);
-  animation: typingCursor 1s step-end infinite;
-}
-
-.greeting-text::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 212, 255, 0.01) 2px,
-      rgba(0, 212, 255, 0.01) 4px
-    );
-  pointer-events: none;
-}
-
 /* ═══════════ Textarea ═══════════ */
+
 .hero-panel textarea {
   min-height: 190px;
   border-radius: var(--radius-md);
-  background: rgba(10, 10, 20, 0.6);
+  background: rgba(10, 10, 20, 0.75);
   border: 1px solid var(--border);
   color: var(--neon-green);
   font-family: 'Courier New', monospace;
   padding: 1.2rem;
-  transition: border var(--transition), box-shadow var(--transition);
+  transition: border var(--transition), box-shadow var(--transition), background var(--transition);
   resize: vertical;
   font-size: 0.9rem;
 }
@@ -791,6 +618,7 @@ button {
 .hero-panel textarea:focus {
   outline: none;
   border-color: var(--neon-blue);
+  background: rgba(10, 10, 20, 0.9);
   box-shadow:
     0 0 20px rgba(0, 212, 255, 0.15),
     0 0 40px rgba(0, 212, 255, 0.05),
@@ -798,6 +626,7 @@ button {
 }
 
 /* ═══════════ Panel Footer ═══════════ */
+
 .panel-footer {
   display: flex;
   align-items: center;
@@ -813,6 +642,7 @@ button {
 }
 
 /* ═══════════ Buttons ═══════════ */
+
 .btn-ghost {
   display: inline-flex;
   align-items: center;
@@ -928,6 +758,7 @@ button {
 }
 
 /* ═══════════ Spotlight ═══════════ */
+
 .spotlight {
   padding: 3rem 0 2rem;
 }
@@ -975,6 +806,7 @@ button {
 }
 
 /* ═══════════ Commands ═══════════ */
+
 .commands {
   padding: 4rem 0 0;
 }
@@ -1038,6 +870,7 @@ button {
 }
 
 /* ═══════════ Command Panel ═══════════ */
+
 .command-panel {
   padding: 2rem;
   border-radius: var(--radius-lg);
@@ -1146,6 +979,7 @@ button {
 }
 
 /* ═══════════ Command Chips ═══════════ */
+
 .command-collection {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -1275,6 +1109,7 @@ button {
 }
 
 /* ═══════════ Field Tiles ═══════════ */
+
 .field-tile {
   display: flex;
   flex-direction: column;
@@ -1320,6 +1155,7 @@ button {
 }
 
 /* ═══════════ Command Aside ═══════════ */
+
 .command-aside {
   padding: 2rem;
   color: var(--muted);
@@ -1351,6 +1187,7 @@ button {
 }
 
 /* ═══════════ Agreement ═══════════ */
+
 .agreement {
   padding: 4rem 0;
 }
@@ -1453,6 +1290,7 @@ button {
 }
 
 /* ═══════════ Footer ═══════════ */
+
 .site-footer {
   padding: 2rem 0 3rem;
   background: rgba(10, 10, 20, 0.95);
@@ -1498,6 +1336,7 @@ button {
 }
 
 /* ═══════════ Guide Page ═══════════ */
+
 .guide-container {
   max-width: 900px;
   margin: 0 auto;
@@ -1622,6 +1461,7 @@ button {
 }
 
 /* ═══════════ Online Page ═══════════ */
+
 .online-title {
   font-size: 1.5rem;
   margin: 2rem 0 1.5rem;
@@ -1706,7 +1546,8 @@ button {
   letter-spacing: 0.05em;
 }
 
-/* ═══════════ Old Nav Override (guide/online pages) ═══════════ */
+/* ═══════════ Old Nav Override ═══════════ */
+
 .navbar-light.bg-light {
   background: rgba(10, 10, 15, 0.95) !important;
   backdrop-filter: blur(25px);
@@ -1777,6 +1618,7 @@ button {
 }
 
 /* ═══════════ Scrollbar ═══════════ */
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -1795,12 +1637,14 @@ button {
 }
 
 /* ═══════════ Selection ═══════════ */
+
 ::selection {
   background: rgba(255, 45, 149, 0.3);
   color: #fff;
 }
 
 /* ═══════════ Responsive ═══════════ */
+
 @media (max-width: 768px) {
   .panel-footer {
     flex-direction: column;
@@ -1830,15 +1674,6 @@ button {
   .guide-step {
     padding: 1.25rem;
   }
-
-  .greeting-gif img {
-    max-height: 180px;
-  }
-
-  .greeting-text {
-    font-size: 0.85rem;
-    padding: 1rem 1.25rem;
-  }
 }
 
 @media (max-width: 480px) {
@@ -1856,14 +1691,5 @@ button {
 
   .agreement-card {
     padding: 1.5rem;
-  }
-
-  .greeting-gif img {
-    max-height: 150px;
-  }
-
-  .greeting-text {
-    font-size: 0.8rem;
-    padding: 0.85rem 1rem;
   }
 }
