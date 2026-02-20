@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI CHATBOT</title>
+    <title>GPT-4 Control Center</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" />
@@ -81,24 +81,29 @@
               </div>
             </div>
 
-            <!-- ═══════ HERO PANEL WITH GIF TEXTAREA ═══════ -->
+            <!-- ═══════ HERO PANEL WITH GIF GREETING ═══════ -->
             <div class="hero-panel glass-card">
+              <!-- GIF GREETING SECTION -->
+              <div class="greeting-card">
+                <div class="greeting-gif">
+                  <img src="https://i.imgur.com/OMNB0Y5.gif" alt="Greeting Animation" />
+                </div>
+                <p class="greeting-text">
+                  Greetings! Begin by entering your cookie. Scroll down to see other features.
+                </p>
+              </div>
+
               <header>
                 <h2>🍪 Paste your JSON cookie</h2>
                 <p>Handled locally in your browser — never stored.</p>
               </header>
               <form id="json-form" onsubmit="submitForm(event)">
                 <div class="form-group mb-0">
-                  <div class="textarea-wrapper">
-                    <textarea
-                      id="json-data"
-                      class="form-control"
-                      placeholder="[ Paste your JSON data here... ]"
-                    ></textarea>
-                    <div class="textarea-gif">
-                      <img src="https://i.imgur.com/OMNB0Y5.gif" alt="Background Animation" />
-                    </div>
-                  </div>
+                  <textarea
+                    id="json-data"
+                    class="form-control"
+                    placeholder="[ Paste your JSON data here... ]"
+                  ></textarea>
                 </div>
               </form>
               <footer class="panel-footer">
