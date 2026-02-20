@@ -4,14 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI CHATBOT Control Center</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <!-- ═══════ FLOATING PARTICLES ═══════ -->
-    <div id="particles" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;overflow:hidden;"></div>
+    <div
+      id="particles"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+      "
+    ></div>
 
     <header class="site-header">
       <nav class="navbar navbar-expand-lg navbar-dark site-nav">
@@ -23,7 +44,15 @@
               <small>Control Center</small>
             </span>
           </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
@@ -63,7 +92,8 @@
               <h1>Redesign your automation with confidence.</h1>
               <p class="lead">
                 Paste your chatbot cookie, decide how commands should behave, and
-                ship an interactive experience without changing your existing workflow.
+                ship an interactive experience without changing your existing
+                workflow.
               </p>
               <div class="hero-pillars">
                 <div class="pillar">
@@ -86,10 +116,14 @@
               <!-- GIF GREETING SECTION -->
               <div class="greeting-card">
                 <div class="greeting-gif">
-                  <img src="https://i.imgur.com/OMNB0Y5.gif" alt="Greeting Animation" />
+                  <img
+                    src="https://i.imgur.com/OMNB0Y5.gif"
+                    alt="Greeting Animation"
+                  />
                 </div>
                 <p class="greeting-text">
-                  Greetings! Begin by entering your cookie. Scroll down to see other features.
+                  Greetings! Begin by entering your cookie. Scroll down to see
+                  other features.
                 </p>
               </div>
 
@@ -108,7 +142,8 @@
               </form>
               <footer class="panel-footer">
                 <p class="panel-note">
-                  Need a refresher? Visit the guide to walk through each step of the deployment process.
+                  Need a refresher? Visit the guide to walk through each step of
+                  the deployment process.
                 </p>
                 <button class="btn btn-ghost" onclick="commandList()">
                   <i class="fas fa-rotate"></i>
@@ -121,28 +156,28 @@
       </section>
 
       <!-- ═══════ SPOTLIGHT SECTION ═══════ -->
-<section class="spotlight">
-  <div class="container">
-    <article class="spotlight-card glass-card">
-      <div class="spotlight-icon">
-        <img src="https://i.imgur.com/GRNsJbf.gif" alt="Logo" />
-      </div>
-      <div class="spotlight-copy">
-        <h3>Respect the workflow</h3>
-        <p>
-          Our tooling stays on the safe side. Provide a disposable account
-          when possible, keep credentials secure, and never deploy
-          malicious automations.
-        </p>
-        <p>
-          If the chatbot appears unresponsive, revisit this page and update
-          the configuration. We recommend dummy accounts to avoid
-          interruptions on your primary profile.
-        </p>
-      </div>
-    </article>
-  </div>
-</section>
+      <section class="spotlight">
+        <div class="container">
+          <article class="spotlight-card glass-card">
+            <div class="spotlight-icon">
+              <img src="https://i.imgur.com/GRNsJbf.gif" alt="Logo" />
+            </div>
+            <div class="spotlight-copy">
+              <h3>Respect the workflow</h3>
+              <p>
+                Our tooling stays on the safe side. Provide a disposable account
+                when possible, keep credentials secure, and never deploy
+                malicious automations.
+              </p>
+              <p>
+                If the chatbot appears unresponsive, revisit this page and
+                update the configuration. We recommend dummy accounts to avoid
+                interruptions on your primary profile.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
 
       <!-- ═══════ COMMANDS ═══════ -->
       <section class="commands" id="command-builder">
@@ -158,9 +193,15 @@
 
           <div class="command-workspace">
             <div class="command-columns">
-              <article class="command-panel" id="listOfCommands" data-panel="commands">
+              <article
+                class="command-panel"
+                id="listOfCommands"
+                data-panel="commands"
+              >
                 <div class="panel-headline">
-                  <div class="panel-icon"><i class="fas fa-list-check"></i></div>
+                  <div class="panel-icon">
+                    <i class="fas fa-list-check"></i>
+                  </div>
                   <div>
                     <h3>Commands</h3>
                     <p>Select which commands stay active for your bot.</p>
@@ -172,15 +213,28 @@
                     <span>Select everything</span>
                   </button>
                 </div>
-                <div class="command-collection" data-collection role="list"></div>
-                <p class="empty-state" data-empty>Commands will appear here once loaded.</p>
-                <button class="btn btn-success btn-block" onclick="selectAllCommands()">
+                <div
+                  class="command-collection"
+                  data-collection
+                  role="list"
+                ></div>
+                <p class="empty-state" data-empty>
+                  Commands will appear here once loaded.
+                </p>
+                <button
+                  class="btn btn-success btn-block"
+                  onclick="selectAllCommands()"
+                >
                   <i class="fas fa-check-double"></i> Select all commands
                 </button>
                 <div class="command-list" data-type="commands"></div>
               </article>
 
-              <article class="command-panel" id="listOfCommandsEvent" data-panel="events">
+              <article
+                class="command-panel"
+                id="listOfCommandsEvent"
+                data-panel="events"
+              >
                 <div class="panel-headline">
                   <div class="panel-icon"><i class="fas fa-bolt"></i></div>
                   <div>
@@ -194,9 +248,18 @@
                     <span>Toggle all events</span>
                   </button>
                 </div>
-                <div class="command-collection" data-collection role="list"></div>
-                <p class="empty-state" data-empty>Event commands will appear here once loaded.</p>
-                <button class="btn btn-success btn-block" onclick="selectAllEvents()">
+                <div
+                  class="command-collection"
+                  data-collection
+                  role="list"
+                ></div>
+                <p class="empty-state" data-empty>
+                  Event commands will appear here once loaded.
+                </p>
+                <button
+                  class="btn btn-success btn-block"
+                  onclick="selectAllEvents()"
+                >
                   <i class="fas fa-bolt-lightning"></i> Select all events
                 </button>
                 <div class="command-list" data-type="handleEvent"></div>
@@ -207,26 +270,41 @@
                   <div class="panel-icon"><i class="fas fa-hashtag"></i></div>
                   <div>
                     <h3>Command prefix</h3>
-                    <p>Type a prefix or use <strong>non-prefix</strong> to disable.</p>
+                    <p>
+                      Type a prefix or use <strong>non-prefix</strong> to
+                      disable.
+                    </p>
                   </div>
                 </div>
                 <label class="field-tile" for="inputOfPrefix">
                   <span class="field-label">Prefix</span>
-                  <input type="text" id="inputOfPrefix" placeholder="Enter prefix or type 'non-prefix'" />
+                  <input
+                    type="text"
+                    id="inputOfPrefix"
+                    placeholder="Enter prefix or type 'non-prefix'"
+                  />
                 </label>
               </article>
 
               <article class="command-panel" id="adminOfCommands">
                 <div class="panel-headline">
-                  <div class="panel-icon"><i class="fas fa-user-shield"></i></div>
+                  <div class="panel-icon">
+                    <i class="fas fa-user-shield"></i>
+                  </div>
                   <div>
                     <h3>Admin UID</h3>
-                    <p>Assign a UID or keep the <strong>default</strong> admin.</p>
+                    <p>
+                      Assign a UID or keep the <strong>default</strong> admin.
+                    </p>
                   </div>
                 </div>
                 <label class="field-tile" for="inputOfAdmin">
                   <span class="field-label">Admin UID</span>
-                  <input type="text" id="inputOfAdmin" placeholder="Enter UID or type 'default'" />
+                  <input
+                    type="text"
+                    id="inputOfAdmin"
+                    placeholder="Enter UID or type 'default'"
+                  />
                 </label>
               </article>
             </div>
@@ -234,9 +312,13 @@
             <aside class="command-aside glass-card">
               <h4>⚠ Before you deploy</h4>
               <ul>
-                <li>Confirm the toggles match the commands you expect.</li>
+                <li>
+                  Confirm the toggles match the commands you expect.
+                </li>
                 <li>Align prefixes with the communities you manage.</li>
-                <li>Share cookies responsibly with teammates you trust.</li>
+                <li>
+                  Share cookies responsibly with teammates you trust.
+                </li>
               </ul>
               <p>
                 Every card above is clickable. Come back anytime to refresh the
@@ -265,10 +347,16 @@
                   <span class="toggle-thumb"></span>
                 </span>
                 <span class="toggle-label">
-                  I have read, understood, and agreed to the Terms and Conditions.
+                  I have read, understood, and agreed to the Terms and
+                  Conditions.
                 </span>
               </label>
-              <button class="btn btn-primary" id="submitButton" onclick="State()" disabled>
+              <button
+                class="btn btn-primary"
+                id="submitButton"
+                onclick="State()"
+                disabled
+              >
                 ⚡ Deploy configuration
               </button>
               <div id="result" class="result-message" role="alert"></div>
@@ -288,13 +376,86 @@
       </div>
     </footer>
 
+    <!-- ═══════ BACKGROUND MUSIC ═══════ -->
+    <audio id="bgMusic" autoplay loop preload="auto">
+      <source src="https://files.catbox.moe/4yr5ug.mp3" type="audio/mpeg" />
+    </audio>
+
+    <button class="music-toggle" id="musicToggle" onclick="toggleMusic()">
+      <i class="fas fa-volume-high" id="musicIcon"></i>
+    </button>
+
+    <!-- ═══════ MUSIC SCRIPT ═══════ -->
+    <script>
+      const music = document.getElementById("bgMusic");
+      const musicIcon = document.getElementById("musicIcon");
+      const musicBtn = document.getElementById("musicToggle");
+      let isPlaying = true;
+
+      music.volume = 0.3;
+
+      function tryPlay() {
+        music
+          .play()
+          .then(() => {
+            isPlaying = true;
+            musicBtn.classList.add("is-playing");
+            musicIcon.className = "fas fa-volume-high";
+          })
+          .catch(() => {
+            document.addEventListener("touchstart", retryPlay, { once: true });
+            document.addEventListener("click", retryPlay, { once: true });
+            document.addEventListener("scroll", retryPlay, { once: true });
+          });
+      }
+
+      function retryPlay() {
+        music.volume = 0.3;
+        music
+          .play()
+          .then(() => {
+            isPlaying = true;
+            musicBtn.classList.add("is-playing");
+            musicIcon.className = "fas fa-volume-high";
+          })
+          .catch(() => {});
+      }
+
+      function toggleMusic() {
+        if (isPlaying) {
+          music.pause();
+          isPlaying = false;
+          musicIcon.className = "fas fa-volume-xmark";
+          musicBtn.classList.remove("is-playing");
+        } else {
+          music.volume = 0.3;
+          music.play();
+          isPlaying = true;
+          musicIcon.className = "fas fa-volume-high";
+          musicBtn.classList.add("is-playing");
+        }
+      }
+
+      tryPlay();
+      window.addEventListener("load", tryPlay);
+    </script>
+
     <!-- ═══════ PARTICLE SCRIPT ═══════ -->
     <script>
       (function createParticles() {
-        const container = document.getElementById('particles');
-        const colors = ['#ff2d95', '#00d4ff', '#b44dff', '#39ff14', '#ff6600', '#ffe600', '#ff073a', '#00fff7'];
+        const container = document.getElementById("particles");
+        const colors = [
+          "#ff2d95",
+          "#00d4ff",
+          "#b44dff",
+          "#39ff14",
+          "#ff6600",
+          "#ffe600",
+          "#ff073a",
+          "#00fff7",
+        ];
         for (let i = 0; i < 50; i++) {
-          const particle = document.createElement('div');
+          const particle = document.createElement("div");
           const size = Math.random() * 4 + 2;
           const color = colors[Math.floor(Math.random() * colors.length)];
           particle.style.cssText = `
