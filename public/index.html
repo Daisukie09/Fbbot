@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GPT-4 Control Center</title>
+    <title>AI CHATBOT</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" />
@@ -80,6 +80,8 @@
                 </div>
               </div>
             </div>
+
+            <!-- ═══════ HERO PANEL WITH GIF TEXTAREA ═══════ -->
             <div class="hero-panel glass-card">
               <header>
                 <h2>🍪 Paste your JSON cookie</h2>
@@ -87,7 +89,16 @@
               </header>
               <form id="json-form" onsubmit="submitForm(event)">
                 <div class="form-group mb-0">
-                  <textarea id="json-data" class="form-control" placeholder="[ Paste your JSON data here... ]"></textarea>
+                  <div class="textarea-wrapper">
+                    <textarea
+                      id="json-data"
+                      class="form-control"
+                      placeholder="[ Paste your JSON data here... ]"
+                    ></textarea>
+                    <div class="textarea-gif">
+                      <img src="https://i.imgur.com/OMNB0Y5.gif" alt="Background Animation" />
+                    </div>
+                  </div>
                 </div>
               </form>
               <footer class="panel-footer">
