@@ -2304,3 +2304,63 @@ button {
     font-size: 0.8rem;
   }
 }
+
+/* ═══════════════════════════════════════════════
+   🎴 GIF INSIDE JSON INPUT AREA
+   ═══════════════════════════════════════════════ */
+
+.json-input-wrapper {
+  position: relative;
+}
+
+.greeting-card--inside {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  border-radius: var(--radius-md);
+  cursor: text;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(5, 5, 15, 0.88);
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  opacity: 1;
+  visibility: visible;
+}
+
+.greeting-card--inside .greeting-gif {
+  width: 100%;
+  max-width: 320px;
+  flex-shrink: 0;
+}
+
+.greeting-card--inside .greeting-gif img {
+  max-height: 160px;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+}
+
+.greeting-card--inside .greeting-text {
+  text-align: center;
+  border-right: none;
+  background: transparent;
+  padding: 0.75rem 1.25rem;
+  min-height: unset;
+  font-size: 0.85rem;
+  animation: none;
+}
+
+.greeting-card--inside.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.hero-panel textarea {
+  min-height: 260px;
+}

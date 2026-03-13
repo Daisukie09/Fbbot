@@ -132,26 +132,25 @@
 
             <!-- ═══════ HERO PANEL WITH GIF GREETING ═══════ -->
             <div class="hero-panel glass-card">
-              <!-- GIF GREETING SECTION -->
-              <div class="greeting-card">
-                <div class="greeting-gif">
-                  <img
-                    src="https://i.imgur.com/OMNB0Y5.gif"
-                    alt="Greeting Animation"
-                  />
-                </div>
-                <p class="greeting-text">
-                  Greetings! Begin by entering your cookie. Scroll down to see
-                  other features.
-                </p>
-              </div>
-
               <header>
                 <h2>🍪 Paste your JSON cookie</h2>
                 <p>Handled locally in your browser — never stored.</p>
               </header>
               <form id="json-form" onsubmit="submitForm(event)">
-                <div class="form-group mb-0">
+                <div class="form-group mb-0 json-input-wrapper">
+                  <!-- GIF GREETING SECTION -->
+                  <div class="greeting-card greeting-card--inside">
+                    <div class="greeting-gif">
+                      <img
+                        src="https://i.imgur.com/OMNB0Y5.gif"
+                        alt="Greeting Animation"
+                      />
+                    </div>
+                    <p class="greeting-text">
+                      Greetings! Begin by entering your cookie. Scroll down to see
+                      other features.
+                    </p>
+                  </div>
                   <textarea
                     id="json-data"
                     class="form-control"
@@ -626,6 +625,32 @@
     </script>
 
     <script src="script.js"></script>
+    <script>
+      (function () {
+        const textarea = document.getElementById('json-data');
+        const gifOverlay = document.querySelector('.greeting-card--inside');
+        if (!textarea || !gifOverlay) return;
+
+        function hideGif() {
+          gifOverlay.classList.add('hidden');
+          textarea.focus();
+        }
+
+        function showGif() {
+          if (!textarea.value.trim()) {
+            gifOverlay.classList.remove('hidden');
+          }
+        }
+
+        gifOverlay.addEventListener('click', hideGif);
+        textarea.addEventListener('focus', hideGif);
+        textarea.addEventListener('blur', showGif);
+
+        if (textarea.value.trim()) {
+          gifOverlay.classList.add('hidden');
+        }
+      })();
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
