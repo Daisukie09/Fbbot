@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": { 
+  "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@dongdev/fca-unofficial": "^3.0.31",
     "@types/node": "^18.0.6",
     "axios": "^1.6.5",
     "bluebird": "^2.11.0",
