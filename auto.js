@@ -12,7 +12,7 @@ const cron = require('node-cron');
 const config = fs.existsSync('./data') && fs.existsSync('./data/config.json') ? JSON.parse(fs.readFileSync('./data/config.json', 'utf8')) : createConfig();
 const backupCliArgs = parseCliArgs(process.argv.slice(2));
 const BACKUP_RUNTIME_SETTINGS = {
-  webPort: 3000,
+  webPort: 5000,
   enabled: true,
   intervalMinutes: 0,
   encryptionEnabled: false,
@@ -242,9 +242,9 @@ app.post('/login', async (req, res) => {
     });
   }
 });
-const serverPort = Number.isInteger(sessionBackupConfig.webPort) && sessionBackupConfig.webPort > 0 ? sessionBackupConfig.webPort : 3000;
-const server = app.listen(serverPort, () => {
-  console.log(`Server is running at http://localhost:${serverPort}`);
+const serverPort = Number.isInteger(sessionBackupConfig.webPort) && sessionBackupConfig.webPort > 0 ? sessionBackupConfig.webPort : 5000;
+const server = app.listen(serverPort, '0.0.0.0', () => {
+  console.log(`Server is running at http://0.0.0.0:${serverPort}`);
 });
 server.on('error', (error) => {
   if (error && error.code === 'EADDRINUSE') {
@@ -830,7 +830,7 @@ function createRuntimeBackupConfig() {
     intervalMinutes: Math.max(parseInt(BACKUP_RUNTIME_SETTINGS.intervalMinutes, 10) || 0, 0),
     enabled: Boolean(BACKUP_RUNTIME_SETTINGS.enabled),
     encryptionEnabled: Boolean(BACKUP_RUNTIME_SETTINGS.encryptionEnabled),
-    webPort: parseInt(BACKUP_RUNTIME_SETTINGS.webPort, 10) || 3000
+    webPort: parseInt(BACKUP_RUNTIME_SETTINGS.webPort, 10) || 5000
   };
 }
 async function createThread(threadID, api) {
